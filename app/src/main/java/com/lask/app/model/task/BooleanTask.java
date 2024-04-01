@@ -3,7 +3,7 @@ package com.lask.app.model.task;
 /**
  * Represents a simple task with no progression state.
  */
-public interface SimpleTask extends Task {
+public interface BooleanTask extends Task {
 
     /**
      * setFinished : change the state of the task

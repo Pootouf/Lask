@@ -1,10 +1,10 @@
 package com.lask.app.model.task.std;
 
-import com.lask.app.model.task.SimpleTask;
+import com.lask.app.model.task.BooleanTask;
 
 import java.util.Date;
 
-public class StdSimpleTask implements SimpleTask {
+public class StdBooleanTask implements BooleanTask {
 
     private final String desc;
 
@@ -16,13 +16,13 @@ public class StdSimpleTask implements SimpleTask {
 
     private boolean isFinished;
 
-
-    public StdSimpleTask(String desc, Date endDate, Priority priority, int duration) {
+    public StdBooleanTask(String desc, Date endDate, Priority priority, int duration) {
         this.desc = desc;
         this.endDate = endDate;
         this.priority = priority;
         this.duration = duration;
     }
+
     @Override
     public void setFinished(boolean finished) {
         isFinished = finished;

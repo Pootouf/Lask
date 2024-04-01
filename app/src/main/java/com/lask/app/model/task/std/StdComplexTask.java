@@ -14,8 +14,6 @@ import java.util.Date;
  */
 public class StdComplexTask extends ComplexTask {
 
-    private static final int MAX_PERCENTAGE = 100;
-
     private final String desc;
 
     private final Priority priority;

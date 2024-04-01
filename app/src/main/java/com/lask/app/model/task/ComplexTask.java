@@ -5,15 +5,9 @@ import java.util.List;
 /**
  * Represents a complex task with a progression state and sub-tasks.
  */
-public abstract class ComplexTask implements Task {
+public abstract class ComplexTask implements ProgressiveTask {
 
     private List<Task> subTasks;
-
-    /**
-     * getCompletionPercentage : return the percentage of completion for this task, based on its sub-tasks
-     * @return int
-     */
-    public abstract int getCompletionPercentage();
 
     /**
      * getSubTasks : return the sub-tasks associated to the complex task

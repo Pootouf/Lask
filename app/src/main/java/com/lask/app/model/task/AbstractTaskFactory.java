@@ -10,14 +10,24 @@ import java.util.Date;
 public interface AbstractTaskFactory {
 
     /**
-     * createSimpleTask : instantiation of a simple task
+     * createBasicTask : instantiation of a basic task
      * @param description String
      * @param endDate Date
      * @param priority Priority
      * @param duration int
-     * @return SimpleTask
+     * @return BasicTask
      */
-    SimpleTask createSimpleTask(String description, Date endDate, Priority priority, int duration);
+    BasicTask createBasicTask(String description, Date endDate, Priority priority, int duration);
+
+    /**
+     * createBooleanTask : instantiation of a boolean task
+     * @param description String
+     * @param endDate Date
+     * @param priority Priority
+     * @param duration int
+     * @return BooleanTask
+     */
+    BooleanTask createBooleanTask(String description, Date endDate, Priority priority, int duration);
 
     /**
      * createComplexTask : instantiation of a complex task

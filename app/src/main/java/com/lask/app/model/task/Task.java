@@ -9,6 +9,8 @@ import java.util.Date;
  */
 public interface Task {
 
+    int MAX_PERCENTAGE = 100;
+
     /**
      * getEndDate : return the estimated deadline for this task
      * @return Date
