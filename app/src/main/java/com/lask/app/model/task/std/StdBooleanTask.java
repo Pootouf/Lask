@@ -16,11 +16,12 @@ public class StdBooleanTask implements BooleanTask {
 
     private boolean isFinished;
 
-    public StdBooleanTask(String desc, Date endDate, Priority priority, int duration) {
+    public StdBooleanTask(String desc, Date endDate, Priority priority, int duration, boolean isFinished) {
         this.desc = desc;
         this.endDate = endDate;
         this.priority = priority;
         this.duration = duration;
+        this.isFinished = isFinished;
     }
 
     @Override

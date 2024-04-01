@@ -15,12 +15,12 @@ public class StdBasicTask implements BasicTask {
 
     private int percentageCompletion;
 
-    public StdBasicTask(String desc, Date endDate, Priority priority, int duration) {
+    public StdBasicTask(String desc, Date endDate, Priority priority, int duration, int percentageCompletion) {
         this.desc = desc;
         this.endDate = endDate;
         this.priority = priority;
         this.duration = duration;
-        percentageCompletion = 0;
+        this.percentageCompletion = percentageCompletion;
     }
 
 
