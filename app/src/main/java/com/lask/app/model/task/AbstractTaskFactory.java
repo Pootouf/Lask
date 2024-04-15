@@ -15,9 +15,10 @@ public interface AbstractTaskFactory {
      * @param endDate Date
      * @param priority Priority
      * @param duration int
+     * @param percentage int
      * @return BasicTask
      */
-    BasicTask createBasicTask(String description, Date endDate, Priority priority, int duration);
+    BasicTask createBasicTask(String description, Date endDate, Priority priority, int duration, int percentage);
 
     /**
      * createBooleanTask : instantiation of a boolean task
@@ -25,9 +26,10 @@ public interface AbstractTaskFactory {
      * @param endDate Date
      * @param priority Priority
      * @param duration int
+     * @param finished boolean
      * @return BooleanTask
      */
-    BooleanTask createBooleanTask(String description, Date endDate, Priority priority, int duration);
+    BooleanTask createBooleanTask(String description, Date endDate, Priority priority, int duration, boolean finished);
 
     /**
      * createComplexTask : instantiation of a complex task

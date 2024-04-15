@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT tasks (basicTask|complexTask|booleanTask)* >
+<!ATTLIST tasks xmlns CDATA #FIXED "http://www.univ-rouen.fr/tasks">
+
+
+<!ELEMENT basicTask (desc, endDate, priority, duration, percentageCompletion)>
+<!ELEMENT complexTask (desc, endDate, priority, (basicTask|complexTask|booleanTask)*)>
+<!ELEMENT booleanTask (desc, endDate, priority, duration, isFinished)>
+
+<!ELEMENT desc (#PCDATA)>
+
+<!ELEMENT endDate (#PCDATA)>
+<!ELEMENT priority (#PCDATA)>
+
+<!ELEMENT duration (#PCDATA)>
+<!ELEMENT percentageCompletion (#PCDATA)>
+<!ELEMENT isFinished (#PCDATA)>

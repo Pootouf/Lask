@@ -9,13 +9,13 @@ import java.util.Date;
 
 public class StdTaskFactory implements AbstractTaskFactory {
     @Override
-    public BasicTask createBasicTask(String description, Date endDate, Priority priority, int duration) {
-        return new StdBasicTask(description, endDate, priority, duration);
+    public BasicTask createBasicTask(String description, Date endDate, Priority priority, int duration, int percentage) {
+        return new StdBasicTask(description, endDate, priority, duration, percentage);
     }
 
     @Override
-    public BooleanTask createBooleanTask(String description, Date endDate, Priority priority, int duration) {
-        return new StdBooleanTask(description, endDate, priority, duration);
+    public BooleanTask createBooleanTask(String description, Date endDate, Priority priority, int duration, boolean finished) {
+        return new StdBooleanTask(description, endDate, priority, duration, finished);
     }
 
     @Override
