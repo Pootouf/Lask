@@ -1,5 +1,6 @@
 package com.lask.app.model.task.std;
 
+import com.lask.app.model.TaskVisitor;
 import com.lask.app.model.task.BasicTask;
 
 import java.util.Date;
@@ -59,5 +60,9 @@ public class StdBasicTask implements BasicTask {
         this.percentageCompletion = percentage;
     }
 
+    @Override
+    public void accept(TaskVisitor taskVisitor) {
+        taskVisitor.visitBasicTask(this);
+    }
 
 }

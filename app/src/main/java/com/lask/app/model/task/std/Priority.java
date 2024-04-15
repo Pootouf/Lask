@@ -19,6 +19,11 @@ public enum Priority {
         return priority;
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(priority);
+    }
+
     /**
      * getPriorityFromInt: return the associated priority with the value
      * @param value

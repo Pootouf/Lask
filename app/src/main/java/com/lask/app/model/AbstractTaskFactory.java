@@ -1,5 +1,8 @@
-package com.lask.app.model.task;
+package com.lask.app.model;
 
+import com.lask.app.model.task.BasicTask;
+import com.lask.app.model.task.BooleanTask;
+import com.lask.app.model.task.ComplexTask;
 import com.lask.app.model.task.std.Priority;
 
 import java.util.Date;

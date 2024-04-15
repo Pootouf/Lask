@@ -1,6 +1,7 @@
-package com.lask.app.model.task.std;
+package com.lask.app.model;
 
 import com.lask.app.model.task.*;
+import com.lask.app.model.task.std.Priority;
 
 import java.util.ArrayList;
 import java.util.Date;

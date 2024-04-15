@@ -1,5 +1,6 @@
 package com.lask.app.model.task;
 
+import com.lask.app.model.TaskVisitor;
 import com.lask.app.model.task.std.Priority;
 
 import java.util.Date;
@@ -36,8 +37,22 @@ public interface Task {
     boolean isFinished();
 
     /**
+     * getCompletionPercentage : return the percentage of completion for this task
+     * @return int
+     */
+    int getCompletionPercentage();
+
+
+    /**
      * getDescription : return the description of the task
      * @return String
      */
     String getDescription();
+
+
+    /**
+     * accept : call the appropriate method of the visitor
+     * @param taskVisitor the visitor
+     */
+    void accept(TaskVisitor taskVisitor);
 }

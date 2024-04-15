@@ -1,5 +1,6 @@
 package com.lask.app.model.task.std;
 
+import com.lask.app.model.TaskVisitor;
 import com.lask.app.model.task.BooleanTask;
 
 import java.util.Date;
@@ -50,7 +51,17 @@ public class StdBooleanTask implements BooleanTask {
     }
 
     @Override
+    public int getCompletionPercentage() {
+        return isFinished ? 100 : 0;
+    }
+
+    @Override
     public String getDescription() {
         return desc;
+    }
+
+    @Override
+    public void accept(TaskVisitor taskVisitor) {
+        taskVisitor.visitBooleanTask(this);
     }
 }

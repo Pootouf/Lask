@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Represents a complex task with a progression state and sub-tasks.
  */
-public abstract class ComplexTask implements ProgressiveTask {
+public abstract class ComplexTask implements Task {
 
     private List<Task> subTasks;
 

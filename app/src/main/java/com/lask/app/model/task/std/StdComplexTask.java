@@ -1,5 +1,6 @@
 package com.lask.app.model.task.std;
 
+import com.lask.app.model.TaskVisitor;
 import com.lask.app.model.task.ComplexTask;
 import com.lask.app.model.task.Task;
 
@@ -69,5 +70,10 @@ public class StdComplexTask extends ComplexTask {
     @Override
     public String getDescription() {
         return desc;
+    }
+
+    @Override
+    public void accept(TaskVisitor taskVisitor) {
+        taskVisitor.visitComplexTask(this);
     }
 }

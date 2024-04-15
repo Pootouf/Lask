@@ -1,4 +1,4 @@
-package com.lask.app.model.task;
+package com.lask.app.model;
 
 import java.util.Date;
 
