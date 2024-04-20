@@ -10,6 +10,7 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class XMLTaskLoader {
@@ -62,7 +63,7 @@ public class XMLTaskLoader {
         }
 
         @Override
-        public void characters(char[] ch, int start, int length) throws SAXException {
+        public void characters(char[] ch, int start, int length) {
             if (descFlag) {
                 descFlag = false;
                 taskBuilder.setDescription(new String(ch, start, length));
@@ -71,13 +72,7 @@ public class XMLTaskLoader {
                 taskBuilder.setPriority(Integer.parseInt(new String(ch, start, length)));
             } else if (endDateFlag) {
                 endDateFlag = false;
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                Date dateStr = null;
-                try {
-                    dateStr = formatter.parse(new String(ch, start, length));
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
+                LocalDate dateStr = LocalDate.parse(new String(ch, start, length));
                 taskBuilder.setEndDate(dateStr);
             } else if (durationFlag) {
                 durationFlag = false;

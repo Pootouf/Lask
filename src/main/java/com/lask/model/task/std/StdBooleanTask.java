@@ -3,13 +3,14 @@ package com.lask.model.task.std;
 import com.lask.model.TaskVisitor;
 import com.lask.model.task.BooleanTask;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public class StdBooleanTask implements BooleanTask {
 
     private final String desc;
 
-    private final Date endDate;
+    private final LocalDate endDate;
 
     private final Priority priority;
 
@@ -17,7 +18,7 @@ public class StdBooleanTask implements BooleanTask {
 
     private boolean isFinished;
 
-    public StdBooleanTask(String desc, Date endDate, Priority priority, int duration, boolean isFinished) {
+    public StdBooleanTask(String desc, LocalDate endDate, Priority priority, int duration, boolean isFinished) {
         this.desc = desc;
         this.endDate = endDate;
         this.priority = priority;
@@ -31,7 +32,7 @@ public class StdBooleanTask implements BooleanTask {
     }
 
     @Override
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 

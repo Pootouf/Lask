@@ -10,7 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Stack;
 
 /**
@@ -82,7 +82,7 @@ public class SaveXMLTaskVisitor implements TaskVisitor {
      * @param element the parent element of the XML tree
      * @throws IOException when writing in the stream
      */
-    private void writeEndDate(Date date, Element element) throws IOException {
+    private void writeEndDate(LocalDate date, Element element) throws IOException {
         Element endDate = doc.createElement("endDate");
         endDate.setTextContent(date.toString());
         element.appendChild(endDate);

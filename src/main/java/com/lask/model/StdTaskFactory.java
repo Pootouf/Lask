@@ -9,16 +9,17 @@ import com.lask.model.task.std.StdBasicTask;
 import com.lask.model.task.std.StdBooleanTask;
 import com.lask.model.task.std.StdComplexTask;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class StdTaskFactory implements AbstractTaskFactory {
     @Override
-    public BasicTask createBasicTask(String description, Date endDate, Priority priority, int duration, int percentage) {
+    public BasicTask createBasicTask(String description, LocalDate endDate, Priority priority, int duration, int percentage) {
         return new StdBasicTask(description, endDate, priority, duration, percentage);
     }
 
     @Override
-    public BooleanTask createBooleanTask(String description, Date endDate, Priority priority, int duration, boolean finished) {
+    public BooleanTask createBooleanTask(String description, LocalDate endDate, Priority priority, int duration, boolean finished) {
         return new StdBooleanTask(description, endDate, priority, duration, finished);
     }
 

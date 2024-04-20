@@ -7,4 +7,7 @@ module com.lask {
 
     opens com.lask to javafx.fxml;
     exports com.lask;
+    exports com.lask.controller;
+    opens com.lask.controller to javafx.fxml;
+    opens com.lask.model.task.std;
 }

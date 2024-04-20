@@ -3,12 +3,12 @@ package com.lask.model.task.std;
 import com.lask.model.TaskVisitor;
 import com.lask.model.task.BasicTask;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class StdBasicTask implements BasicTask {
     private final String desc;
 
-    private final Date endDate;
+    private final LocalDate endDate;
 
     private final Priority priority;
 
@@ -16,7 +16,7 @@ public class StdBasicTask implements BasicTask {
 
     private int percentageCompletion;
 
-    public StdBasicTask(String desc, Date endDate, Priority priority, int duration, int percentageCompletion) {
+    public StdBasicTask(String desc, LocalDate endDate, Priority priority, int duration, int percentageCompletion) {
         this.desc = desc;
         this.endDate = endDate;
         this.priority = priority;
@@ -26,7 +26,7 @@ public class StdBasicTask implements BasicTask {
 
 
     @Override
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 

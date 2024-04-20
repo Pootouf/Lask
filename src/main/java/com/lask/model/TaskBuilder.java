@@ -1,5 +1,6 @@
 package com.lask.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public interface TaskBuilder {
@@ -29,7 +30,7 @@ public interface TaskBuilder {
      * setEndDate: set the end date of the task
      * @param endDate
      */
-    void setEndDate(Date endDate);
+    void setEndDate(LocalDate endDate);
 
     /**
      * setDuration: set the duration of the task

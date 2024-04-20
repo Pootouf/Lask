@@ -3,6 +3,8 @@ package com.lask.model.task;
 import com.lask.model.TaskVisitor;
 import com.lask.model.task.std.Priority;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -16,7 +18,7 @@ public interface Task {
      * getEndDate : return the estimated deadline for this task
      * @return Date
      */
-    Date getEndDate();
+    LocalDate getEndDate();
 
     /**
      * getPriority : return the priority level for this task

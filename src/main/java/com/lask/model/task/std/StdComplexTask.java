@@ -4,7 +4,7 @@ import com.lask.model.TaskVisitor;
 import com.lask.model.task.ComplexTask;
 import com.lask.model.task.Task;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * The implementation of a complex task.
@@ -38,10 +38,10 @@ public class StdComplexTask extends ComplexTask {
     }
 
     @Override
-    public Date getEndDate() {
-        Date max = new Date();
+    public LocalDate getEndDate() {
+        LocalDate max = LocalDate.MIN;
         for(Task task : this.getSubTasks()) {
-            if(max.before(task.getEndDate())) {
+            if(max.isBefore(task.getEndDate())) {
                 max = task.getEndDate();
             }
         }

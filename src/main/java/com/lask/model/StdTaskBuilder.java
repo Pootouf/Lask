@@ -3,6 +3,7 @@ package com.lask.model;
 import com.lask.model.task.*;
 import com.lask.model.task.std.Priority;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +14,7 @@ public class StdTaskBuilder implements TaskBuilder {
     private final AbstractTaskFactory factory;
     private final List<Task> result;
     private String description;
-    private Date endDate;
+    private LocalDate endDate;
     private Integer duration;
     private Integer priority;
     private Boolean finished;
@@ -66,7 +67,7 @@ public class StdTaskBuilder implements TaskBuilder {
     }
 
     @Override
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         if (states.lastElement() == State.NONE) {
             throw new IllegalArgumentException("Can't set the end date of nothing");
         }

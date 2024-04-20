@@ -5,6 +5,7 @@ import com.lask.model.task.BooleanTask;
 import com.lask.model.task.ComplexTask;
 import com.lask.model.task.std.Priority;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -15,24 +16,24 @@ public interface AbstractTaskFactory {
     /**
      * createBasicTask : instantiation of a basic task
      * @param description String
-     * @param endDate Date
+     * @param endDate LocalDate
      * @param priority Priority
      * @param duration int
      * @param percentage int
      * @return BasicTask
      */
-    BasicTask createBasicTask(String description, Date endDate, Priority priority, int duration, int percentage);
+    BasicTask createBasicTask(String description, LocalDate endDate, Priority priority, int duration, int percentage);
 
     /**
      * createBooleanTask : instantiation of a boolean task
      * @param description String
-     * @param endDate Date
+     * @param endDate LocalDate
      * @param priority Priority
      * @param duration int
      * @param finished boolean
      * @return BooleanTask
      */
-    BooleanTask createBooleanTask(String description, Date endDate, Priority priority, int duration, boolean finished);
+    BooleanTask createBooleanTask(String description, LocalDate endDate, Priority priority, int duration, boolean finished);
 
     /**
      * createComplexTask : instantiation of a complex task
