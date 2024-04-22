@@ -51,6 +51,12 @@ public interface Task {
      */
     String getDescription();
 
+    /**
+     * isLeaf: indicate if this task is a leaf (if it can have sub-tasks)
+     * @return bool
+     */
+    boolean isLeaf();
+
 
     /**
      * accept : call the appropriate method of the visitor

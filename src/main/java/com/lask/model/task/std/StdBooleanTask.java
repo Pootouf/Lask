@@ -27,6 +27,11 @@ public class StdBooleanTask implements BooleanTask {
     }
 
     @Override
+    public boolean isLeaf() {
+        return false;
+    }
+
+    @Override
     public void setFinished(boolean finished) {
         isFinished = finished;
     }

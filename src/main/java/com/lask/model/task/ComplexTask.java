@@ -1,5 +1,6 @@
 package com.lask.model.task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,7 +8,12 @@ import java.util.List;
  */
 public abstract class ComplexTask implements Task {
 
-    private List<Task> subTasks;
+    private final List<Task> subTasks = new ArrayList<>();
+
+    @Override
+    public boolean isLeaf() {
+        return true;
+    }
 
     /**
      * getSubTasks : return the sub-tasks associated to the complex task

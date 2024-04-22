@@ -31,6 +31,9 @@ public class StdComplexTask extends ComplexTask {
     @Override
     public int getCompletionPercentage() {
         int completedTasks = 0;
+        if (this.getSubTasksNumber() == 0) {
+            return 100;
+        }
         for (Task task : this.getSubTasks()) {
             completedTasks += task.isFinished() ? 1 : 0;
         }

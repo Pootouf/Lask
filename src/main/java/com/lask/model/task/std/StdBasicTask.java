@@ -24,6 +24,10 @@ public class StdBasicTask implements BasicTask {
         this.percentageCompletion = percentageCompletion;
     }
 
+    @Override
+    public boolean isLeaf() {
+        return false;
+    }
 
     @Override
     public LocalDate getEndDate() {
