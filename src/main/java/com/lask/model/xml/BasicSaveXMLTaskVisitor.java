@@ -67,7 +67,6 @@ public class BasicSaveXMLTaskVisitor implements TaskVisitor {
         try {
             outputStream.write("<complexTask>".getBytes());
             writeDesc(complexTask.getDescription());
-            writeEndDate(complexTask.getEndDate());
             writePriority(complexTask.getPriority());
             for(Task task : complexTask.getSubTasks()) {
                 task.accept(this);
