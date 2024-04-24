@@ -7,6 +7,7 @@ import com.lask.model.task.TaskList;
 import com.lask.model.task.std.Priority;
 import com.lask.model.xml.BasicSaveXMLTaskVisitor;
 import com.lask.view.DateEditingCell;
+import com.lask.view.LimitedLengthTextFormatter;
 import com.lask.view.SubTaskCreationVisitor;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -89,7 +90,9 @@ public class TaskVisualizationController implements Initializable {
     private void createTreeViewTaskColumnDescription() {
         TreeTableColumn<Task, String> column = new TreeTableColumn<>("Description");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
-        column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
+        column.setCellFactory(//e -> new LimitedLengthTextFormatter()
+                TextFieldTreeTableCell.forTreeTableColumn()
+        );
         column.setOnEditCommit(value -> value.getRowValue().getValue().setDescription(value.getNewValue()));
         treeView.getColumns().add(column);
     }
