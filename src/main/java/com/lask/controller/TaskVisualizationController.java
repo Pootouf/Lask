@@ -146,6 +146,7 @@ public class TaskVisualizationController implements Initializable {
             tc.setComboBoxEditable(true);
             return tc;
         });
+        column.setOnEditCommit(value -> value.getRowValue().getValue().setPriority(value.getNewValue()));
         treeView.getColumns().add(column);
     }
 

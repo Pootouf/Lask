@@ -12,7 +12,7 @@ public class StdBooleanTask implements BooleanTask {
 
     private final LocalDate endDate;
 
-    private final Priority priority;
+    private Priority priority;
 
     private final int duration;
 
@@ -69,6 +69,11 @@ public class StdBooleanTask implements BooleanTask {
     @Override
     public void setDescription(String description) {
         this.desc = description;
+    }
+
+    @Override
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
     @Override

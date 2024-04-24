@@ -17,7 +17,7 @@ public class StdComplexTask extends ComplexTask {
 
     private String desc;
 
-    private final Priority priority;
+    private Priority priority;
 
 
     public StdComplexTask(String desc, Priority priority) {
@@ -78,6 +78,11 @@ public class StdComplexTask extends ComplexTask {
     @Override
     public void setDescription(String description) {
         this.desc = description;
+    }
+
+    @Override
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
     @Override

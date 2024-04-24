@@ -52,17 +52,22 @@ public interface Task {
     String getDescription();
 
     /**
-     * setDescription: set the description of the task
-     * @param description
-     */
-    void setDescription(String description);
-
-    /**
      * isLeaf: indicate if this task is a leaf (if it can have sub-tasks)
      * @return bool
      */
     boolean isLeaf();
 
+    /**
+     * setDescription: set the description of the task
+     * @param description the description of the task to set
+     */
+    void setDescription(String description);
+    
+    /**
+     * setPriority: set the task's priority (enum value)
+     * @param priority the priority of the task
+     */
+    void setPriority(Priority priority);
 
     /**
      * accept : call the appropriate method of the visitor

@@ -10,7 +10,7 @@ public class StdBasicTask implements BasicTask {
 
     private final LocalDate endDate;
 
-    private final Priority priority;
+    private Priority priority;
 
     private final int duration;
 
@@ -57,6 +57,11 @@ public class StdBasicTask implements BasicTask {
     @Override
     public void setDescription(String description) {
         this.desc = description;
+    }
+
+    @Override
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
     @Override
