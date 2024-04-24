@@ -52,6 +52,12 @@ public interface Task {
     String getDescription();
 
     /**
+     * setDescription: set the description of the task
+     * @param description
+     */
+    void setDescription(String description);
+
+    /**
      * isLeaf: indicate if this task is a leaf (if it can have sub-tasks)
      * @return bool
      */

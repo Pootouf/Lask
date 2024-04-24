@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 public class StdBooleanTask implements BooleanTask {
 
-    private final String desc;
+    private String desc;
 
     private final LocalDate endDate;
 
@@ -64,6 +64,11 @@ public class StdBooleanTask implements BooleanTask {
     @Override
     public String getDescription() {
         return desc;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.desc = description;
     }
 
     @Override

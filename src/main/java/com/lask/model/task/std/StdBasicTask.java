@@ -6,7 +6,7 @@ import com.lask.model.task.BasicTask;
 import java.time.LocalDate;
 
 public class StdBasicTask implements BasicTask {
-    private final String desc;
+    private String desc;
 
     private final LocalDate endDate;
 
@@ -52,6 +52,11 @@ public class StdBasicTask implements BasicTask {
     @Override
     public String getDescription() {
         return desc;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.desc = description;
     }
 
     @Override

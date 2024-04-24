@@ -66,38 +66,58 @@ public class TaskVisualizationController implements Initializable {
         });
     }
 
-    private void createTreeViewColumns() {
-        this.createTreeViewTaskColumn("Description", "description");
-        this.createTreeViewTaskColumnIntegerFormat("Durée", "duration");
-        this.createTreeViewTaskColumnIntegerFormat("Pourcentage de complétion", "completionPercentage");
-        this.createTreeViewTaskColumnDateFormat("Date de fin", "endDate");
-        this.createTreeViewTaskColumnEnumPriorityFormat("Priorité", "priority");
+    public void selectDirectoryToSaveFile(ActionEvent actionEvent) throws IOException {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Où sauvegarder le fichier ?");
+
+        File selectedFile = chooser.showSaveDialog(treeView.getScene().getWindow());
+        if (selectedFile == null || !selectedFile.createNewFile()) {
+            return;
+        }
+        BasicSaveXMLTaskVisitor saver = new BasicSaveXMLTaskVisitor(new FileOutputStream(selectedFile));
+        saver.visit(taskList);
     }
 
-    private void createTreeViewTaskColumn(String columnName, String propertyName) {
-        TreeTableColumn<Task, String> column = new TreeTableColumn<>(columnName);
-        column.setCellValueFactory(new TreeItemPropertyValueFactory<>(propertyName));
+    private void createTreeViewColumns() {
+        this.createTreeViewTaskColumnDescription();
+        this.createTreeViewTaskColumnDuration();
+        this.createTreeViewTaskColumnCompletionPercentage();
+        this.createTreeViewTaskColumnEndDateFormat();
+        this.createTreeViewTaskColumnEnumPriorityFormat();
+    }
+
+    private void createTreeViewTaskColumnDescription() {
+        TreeTableColumn<Task, String> column = new TreeTableColumn<>("Description");
+        column.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
         column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
+        column.setOnEditCommit(value -> value.getRowValue().getValue().setDescription(value.getNewValue()));
         treeView.getColumns().add(column);
     }
 
-    private void createTreeViewTaskColumnDateFormat(String columnName, String propertyName) {
-        TreeTableColumn<Task, LocalDate> column = new TreeTableColumn<>(columnName);
-        column.setCellValueFactory(new TreeItemPropertyValueFactory<>(propertyName));
+    private void createTreeViewTaskColumnEndDateFormat() {
+        TreeTableColumn<Task, LocalDate> column = new TreeTableColumn<>("Date de fin");
+        column.setCellValueFactory(new TreeItemPropertyValueFactory<>("endDate"));
         column.setCellFactory(col -> new DateEditingCell());
         treeView.getColumns().add(column);
     }
 
-    private void createTreeViewTaskColumnIntegerFormat(String columnName, String propertyName) {
-        TreeTableColumn<Task, Integer> column = new TreeTableColumn<>(columnName);
-        column.setCellValueFactory(new TreeItemPropertyValueFactory<>(propertyName));
+    private void createTreeViewTaskColumnDuration() {
+        TreeTableColumn<Task, Integer> column = new TreeTableColumn<>("Durée");
+        column.setCellValueFactory(new TreeItemPropertyValueFactory<>("duration"));
         column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new IntegerStringConverter()));
         treeView.getColumns().add(column);
     }
 
-    private void createTreeViewTaskColumnEnumPriorityFormat(String columnName, String propertyName) {
-        TreeTableColumn<Task, Priority> column = new TreeTableColumn<>(columnName);
-        column.setCellValueFactory(new TreeItemPropertyValueFactory<>(propertyName));
+    private void createTreeViewTaskColumnCompletionPercentage() {
+        TreeTableColumn<Task, Integer> column = new TreeTableColumn<>("Pourcentage de complétion");
+        column.setCellValueFactory(new TreeItemPropertyValueFactory<>("completionPercentage"));
+        column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new IntegerStringConverter()));
+        treeView.getColumns().add(column);
+    }
+
+    private void createTreeViewTaskColumnEnumPriorityFormat() {
+        TreeTableColumn<Task, Priority> column = new TreeTableColumn<>("Priorité");
+        column.setCellValueFactory(new TreeItemPropertyValueFactory<>("priority"));
         column.setCellFactory(col -> {
             ComboBoxTreeTableCell<Task, Priority> tc = new ComboBoxTreeTableCell<>(
                     new StringConverter<>() {
@@ -170,16 +190,4 @@ public class TaskVisualizationController implements Initializable {
         }
     }
 
-
-    public void selectDirectoryToSaveFile(ActionEvent actionEvent) throws IOException {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Où sauvegarder le fichier ?");
-
-        File selectedFile = chooser.showSaveDialog(treeView.getScene().getWindow());
-        if (!selectedFile.createNewFile()) {
-            return;
-        }
-        BasicSaveXMLTaskVisitor saver = new BasicSaveXMLTaskVisitor(new FileOutputStream(selectedFile));
-        saver.visit(taskList);
-    }
 }
