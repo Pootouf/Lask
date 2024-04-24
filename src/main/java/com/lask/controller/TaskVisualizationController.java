@@ -9,6 +9,9 @@ import com.lask.model.xml.BasicSaveXMLTaskVisitor;
 import com.lask.view.DateEditingCell;
 import com.lask.view.LimitedLengthTextFormatter;
 import com.lask.view.SubTaskCreationVisitor;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +20,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -28,6 +32,9 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class TaskVisualizationController implements Initializable {
+
+    @FXML
+    private Button deleteButton;
 
     @FXML
     private TreeTableView<Task> treeView;
@@ -65,7 +72,15 @@ public class TaskVisualizationController implements Initializable {
             });
             return row;
         });
+
+        deleteButton.disableProperty().bind(
+                Bindings.isEmpty(
+                        treeView.getSelectionModel().getSelectedItems()
+                )
+        );
+
     }
+
 
     public void selectDirectoryToSaveFile(ActionEvent actionEvent) throws IOException {
         FileChooser chooser = new FileChooser();
@@ -193,4 +208,11 @@ public class TaskVisualizationController implements Initializable {
         }
     }
 
+    public void deleteTask(ActionEvent actionEvent) {
+        TreeItem<Task> treeItem = treeView.getSelectionModel().getSelectedItem();
+        TreeItem<Task> parent = treeItem.getParent();
+        parent.getChildren().remove(treeItem);
+        Task selectedItem = treeItem.getValue();
+        taskList.removeTask(selectedItem);
+    }
 }
