@@ -5,4 +5,5 @@
 
 <VBox alignment="CENTER" prefHeight="800" prefWidth="1500" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lask.controller.TaskVisualizationController">
     <TreeTableView fx:id="treeView" editable="true" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" showRoot="false" />
+    <Button onAction="#selectDirectoryToSaveFile" text="Sauvegarder au format XML"/>
 </VBox>

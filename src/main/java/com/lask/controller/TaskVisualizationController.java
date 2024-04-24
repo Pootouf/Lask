@@ -3,21 +3,25 @@ package com.lask.controller;
 import com.lask.model.AbstractTaskFactory;
 import com.lask.model.StdTaskFactory;
 import com.lask.model.task.Task;
+import com.lask.model.task.TaskList;
 import com.lask.model.task.std.Priority;
+import com.lask.model.xml.BasicSaveXMLTaskVisitor;
 import com.lask.view.DateEditingCell;
 import com.lask.view.SubTaskCreationVisitor;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
+import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -27,10 +31,13 @@ public class TaskVisualizationController implements Initializable {
     @FXML
     private TreeTableView<Task> treeView;
 
+    private final TaskList taskList;
+
     private final AbstractTaskFactory taskFactory;
 
     public TaskVisualizationController() {
         taskFactory = new StdTaskFactory();
+        taskList = this.taskFactory.createTaskList();
     }
 
     @Override
@@ -92,8 +99,8 @@ public class TaskVisualizationController implements Initializable {
         TreeTableColumn<Task, Priority> column = new TreeTableColumn<>(columnName);
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>(propertyName));
         column.setCellFactory(col -> {
-            ComboBoxTreeTableCell<Task, Priority> tc = new ComboBoxTreeTableCell<Task, Priority>(
-                    new StringConverter<Priority>() {
+            ComboBoxTreeTableCell<Task, Priority> tc = new ComboBoxTreeTableCell<>(
+                    new StringConverter<>() {
                         @Override
                         public String toString(Priority priority) {
                             return switch (priority) {
@@ -105,12 +112,12 @@ public class TaskVisualizationController implements Initializable {
 
                         @Override
                         public Priority fromString(String s) {
-                            switch (s) {
-                                case "URGENT" : return Priority.URGENT;
-                                case "NORMAL" : return Priority.NORMAL;
-                                case "SECONDAIRE" : return Priority.SECONDARY;
+                            return switch (s) {
+                                case "URGENT" -> Priority.URGENT;
+                                case "NORMAL" -> Priority.NORMAL;
+                                case "SECONDAIRE" -> Priority.SECONDARY;
+                                default -> throw new IllegalArgumentException("Not a valid string to receive");
                             };
-                            throw new IllegalArgumentException("Not a valid string to receive");
                         }
                     }, FXCollections.observableArrayList(Priority.values())
             );
@@ -158,9 +165,21 @@ public class TaskVisualizationController implements Initializable {
             selectedTask.getChildren().add(newItem);
             new SubTaskCreationVisitor(newTask).visit(selectedTask.getValue());
         } else {
+            taskList.addTask(newTask);
             treeView.getRoot().getChildren().add(newItem);
         }
     }
 
 
+    public void selectDirectoryToSaveFile(ActionEvent actionEvent) throws IOException {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Où sauvegarder le fichier ?");
+
+        File selectedFile = chooser.showSaveDialog(treeView.getScene().getWindow());
+        if (!selectedFile.createNewFile()) {
+            return;
+        }
+        BasicSaveXMLTaskVisitor saver = new BasicSaveXMLTaskVisitor(new FileOutputStream(selectedFile));
+        saver.visit(taskList);
+    }
 }
