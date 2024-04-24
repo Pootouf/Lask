@@ -1,18 +1,19 @@
 package com.lask.model;
 
-import com.lask.model.AbstractTaskFactory;
 import com.lask.model.task.BasicTask;
 import com.lask.model.task.BooleanTask;
 import com.lask.model.task.ComplexTask;
-import com.lask.model.task.std.Priority;
-import com.lask.model.task.std.StdBasicTask;
-import com.lask.model.task.std.StdBooleanTask;
-import com.lask.model.task.std.StdComplexTask;
+import com.lask.model.task.TaskList;
+import com.lask.model.task.std.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class StdTaskFactory implements AbstractTaskFactory {
+    @Override
+    public TaskList createTaskList() {
+        return new StdTaskList();
+    }
+
     @Override
     public BasicTask createBasicTask(String description, LocalDate endDate, Priority priority, int duration, int percentage) {
         return new StdBasicTask(description, endDate, priority, duration, percentage);

@@ -3,15 +3,21 @@ package com.lask.model;
 import com.lask.model.task.BasicTask;
 import com.lask.model.task.BooleanTask;
 import com.lask.model.task.ComplexTask;
+import com.lask.model.task.TaskList;
 import com.lask.model.task.std.Priority;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Represents the abstraction of creation and instantiation of tasks by client.
  */
 public interface AbstractTaskFactory {
+
+    /**
+     * createTaskList: instantiation of a task list
+     * @return TaskList
+     */
+    TaskList createTaskList();
 
     /**
      * createBasicTask : instantiation of a basic task

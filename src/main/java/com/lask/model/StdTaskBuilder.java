@@ -5,14 +5,13 @@ import com.lask.model.task.std.Priority;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 
 public class StdTaskBuilder implements TaskBuilder {
 
     private final AbstractTaskFactory factory;
-    private final List<Task> result;
+    private final TaskList result;
     private String description;
     private LocalDate endDate;
     private Integer duration;
@@ -23,14 +22,14 @@ public class StdTaskBuilder implements TaskBuilder {
     private final Stack<List<Task>> childsStack;
 
     public StdTaskBuilder(AbstractTaskFactory factory) {
-        result = new ArrayList<>();
+        result = factory.createTaskList();
         states = new Stack<>();
         childsStack = new Stack<>();
         this.factory = factory;
     }
 
-    public List<Task> getTasks() {
-        return new ArrayList<>(result);
+    public TaskList getTaskList() {
+        return result;
     }
 
     @Override
@@ -151,7 +150,7 @@ public class StdTaskBuilder implements TaskBuilder {
         if (states.lastElement() == State.COMPLEX_TASK) {
             childsStack.lastElement().add(currentTask);
         } else if (states.lastElement() == State.NONE) {
-            result.add(currentTask);
+            result.addTask(currentTask);
         } else {
             throw new IllegalArgumentException("Can't create a complex task inside the current task");
         }
