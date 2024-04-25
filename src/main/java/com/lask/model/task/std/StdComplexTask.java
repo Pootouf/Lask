@@ -48,6 +48,9 @@ public class StdComplexTask extends ComplexTask {
                 max = task.getEndDate();
             }
         }
+        if (max.isEqual(LocalDate.MIN)) {
+            max = LocalDate.now();
+        }
         return max;
     }
 

@@ -6,15 +6,13 @@ import com.lask.model.task.Task;
 import com.lask.model.task.TaskList;
 import com.lask.model.task.std.Priority;
 import com.lask.model.xml.BasicSaveXMLTaskVisitor;
-import com.lask.view.DateEditingCell;
-import com.lask.view.LimitedLengthTextFormatter;
-import com.lask.view.SubTaskCreationVisitor;
-import com.lask.view.SubTaskDeletionVisitor;
+import com.lask.view.*;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -122,6 +120,9 @@ public class TaskVisualizationController implements Initializable {
         column.setCellFactory(e -> new LimitedLengthTextFormatter()
         );
         column.setOnEditCommit(value -> value.getRowValue().getValue().setDescription(value.getNewValue()));
+        column.setOnEditStart((event) -> {
+            cancelEditIfTaskPropertyNotEditable(DisabledPropertyTaskVisitor.PROPERTY_DESCRIPTION, event);
+        });
         treeView.getColumns().add(column);
     }
 
@@ -129,6 +130,9 @@ public class TaskVisualizationController implements Initializable {
         TreeTableColumn<Task, LocalDate> column = new TreeTableColumn<>("Date de fin");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("endDate"));
         column.setCellFactory(col -> new DateEditingCell());
+        column.setOnEditStart((event) -> {
+            cancelEditIfTaskPropertyNotEditable(DisabledPropertyTaskVisitor.PROPERTY_END_DATE, event);
+        });
         treeView.getColumns().add(column);
     }
 
@@ -136,6 +140,9 @@ public class TaskVisualizationController implements Initializable {
         TreeTableColumn<Task, Integer> column = new TreeTableColumn<>("Durée");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("duration"));
         column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new IntegerStringConverter()));
+        column.setOnEditStart((event) -> {
+            cancelEditIfTaskPropertyNotEditable(DisabledPropertyTaskVisitor.PROPERTY_DURATION, event);
+        });
         treeView.getColumns().add(column);
     }
 
@@ -143,6 +150,9 @@ public class TaskVisualizationController implements Initializable {
         TreeTableColumn<Task, Integer> column = new TreeTableColumn<>("Pourcentage de complétion");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("completionPercentage"));
         column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new IntegerStringConverter()));
+        column.setOnEditStart((event) -> {
+            cancelEditIfTaskPropertyNotEditable(DisabledPropertyTaskVisitor.PROPERTY_COMPLETION_PERCENTAGE, event);
+        });
         treeView.getColumns().add(column);
     }
 
@@ -176,6 +186,9 @@ public class TaskVisualizationController implements Initializable {
             return tc;
         });
         column.setOnEditCommit(value -> value.getRowValue().getValue().setPriority(value.getNewValue()));
+        column.setOnEditStart((event) -> {
+            cancelEditIfTaskPropertyNotEditable(DisabledPropertyTaskVisitor.PROPERTY_PRIORITY, event);
+        });
         treeView.getColumns().add(column);
     }
 
@@ -219,6 +232,16 @@ public class TaskVisualizationController implements Initializable {
         } else {
             taskList.addTask(newTask);
             treeView.getRoot().getChildren().add(newItem);
+        }
+        treeView.refresh();
+    }
+
+    private void cancelEditIfTaskPropertyNotEditable(String property, TreeTableColumn.CellEditEvent<Task, ?> event) {
+        DisabledPropertyTaskVisitor visitor = new DisabledPropertyTaskVisitor(property);
+        visitor.visit(event.getRowValue().getValue());
+        if (visitor.isDisabled()) {
+            event.consume();
+            treeView.refresh();
         }
     }
 }
