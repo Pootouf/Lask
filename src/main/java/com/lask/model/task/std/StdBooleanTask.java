@@ -10,11 +10,11 @@ public class StdBooleanTask implements BooleanTask {
 
     private String desc;
 
-    private final LocalDate endDate;
+    private LocalDate endDate;
 
     private Priority priority;
 
-    private final int duration;
+    private int duration;
 
     private boolean isFinished;
 
@@ -34,6 +34,16 @@ public class StdBooleanTask implements BooleanTask {
     @Override
     public void setFinished(boolean finished) {
         isFinished = finished;
+    }
+
+    @Override
+    public void setEndDate(LocalDate date) {
+        this.endDate = date;
+    }
+
+    @Override
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     @Override

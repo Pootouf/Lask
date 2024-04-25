@@ -8,11 +8,11 @@ import java.time.LocalDate;
 public class StdBasicTask implements BasicTask {
     private String desc;
 
-    private final LocalDate endDate;
+    private LocalDate endDate;
 
     private Priority priority;
 
-    private final int duration;
+    private int duration;
 
     private int percentageCompletion;
 
@@ -72,6 +72,16 @@ public class StdBasicTask implements BasicTask {
     @Override
     public void setCompletionPercentage(int percentage) {
         this.percentageCompletion = percentage;
+    }
+
+    @Override
+    public void setEndDate(LocalDate date) {
+        this.endDate = date;
+    }
+
+    @Override
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     @Override
