@@ -9,6 +9,7 @@ import com.lask.model.xml.BasicSaveXMLTaskVisitor;
 import com.lask.view.DateEditingCell;
 import com.lask.view.LimitedLengthTextFormatter;
 import com.lask.view.SubTaskCreationVisitor;
+import com.lask.view.SubTaskDeletionVisitor;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -81,7 +82,6 @@ public class TaskVisualizationController implements Initializable {
 
     }
 
-
     public void selectDirectoryToSaveFile(ActionEvent actionEvent) throws IOException {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Où sauvegarder le fichier ?");
@@ -92,6 +92,20 @@ public class TaskVisualizationController implements Initializable {
         }
         BasicSaveXMLTaskVisitor saver = new BasicSaveXMLTaskVisitor(new FileOutputStream(selectedFile));
         saver.visit(taskList);
+    }
+
+    public void deleteTask(ActionEvent actionEvent) {
+        TreeItem<Task> treeItem = treeView.getSelectionModel().getSelectedItem();
+        TreeItem<Task> parent = treeItem.getParent();
+        Task selectedItem = treeItem.getValue();
+        if (parent == treeView.getRoot()) {
+            taskList.removeTask(selectedItem);
+        } else {
+            Task parentTask = parent.getValue();
+            SubTaskDeletionVisitor visitor = new SubTaskDeletionVisitor(selectedItem);
+            parentTask.accept(visitor);
+        }
+        parent.getChildren().remove(treeItem);
     }
 
     private void createTreeViewColumns() {
@@ -206,13 +220,5 @@ public class TaskVisualizationController implements Initializable {
             taskList.addTask(newTask);
             treeView.getRoot().getChildren().add(newItem);
         }
-    }
-
-    public void deleteTask(ActionEvent actionEvent) {
-        TreeItem<Task> treeItem = treeView.getSelectionModel().getSelectedItem();
-        TreeItem<Task> parent = treeItem.getParent();
-        parent.getChildren().remove(treeItem);
-        Task selectedItem = treeItem.getValue();
-        taskList.removeTask(selectedItem);
     }
 }
