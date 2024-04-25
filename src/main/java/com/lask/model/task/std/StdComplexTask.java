@@ -15,9 +15,9 @@ import java.time.LocalDate;
  */
 public class StdComplexTask extends ComplexTask {
 
-    private final String desc;
+    private String desc;
 
-    private final Priority priority;
+    private Priority priority;
 
 
     public StdComplexTask(String desc, Priority priority) {
@@ -48,6 +48,9 @@ public class StdComplexTask extends ComplexTask {
                 max = task.getEndDate();
             }
         }
+        if (max.isEqual(LocalDate.MIN)) {
+            max = LocalDate.now();
+        }
         return max;
     }
 
@@ -73,6 +76,16 @@ public class StdComplexTask extends ComplexTask {
     @Override
     public String getDescription() {
         return desc;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.desc = description;
+    }
+
+    @Override
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
     @Override

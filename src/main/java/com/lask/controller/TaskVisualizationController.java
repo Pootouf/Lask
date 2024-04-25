@@ -6,8 +6,8 @@ import com.lask.model.task.Task;
 import com.lask.model.task.TaskList;
 import com.lask.model.task.std.Priority;
 import com.lask.model.xml.BasicSaveXMLTaskVisitor;
-import com.lask.view.DateEditingCell;
-import com.lask.view.SubTaskCreationVisitor;
+import com.lask.view.*;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,6 +27,9 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class TaskVisualizationController implements Initializable {
+
+    @FXML
+    private Button deleteButton;
 
     @FXML
     private TreeTableView<Task> treeView;
@@ -64,40 +67,97 @@ public class TaskVisualizationController implements Initializable {
             });
             return row;
         });
+
+        deleteButton.disableProperty().bind(
+                Bindings.isEmpty(
+                        treeView.getSelectionModel().getSelectedItems()
+                )
+        );
+
+    }
+
+    public void selectDirectoryToSaveFile(ActionEvent actionEvent) throws IOException {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Où sauvegarder le fichier ?");
+
+        File selectedFile = chooser.showSaveDialog(treeView.getScene().getWindow());
+        if (selectedFile == null || !selectedFile.createNewFile()) {
+            return;
+        }
+        BasicSaveXMLTaskVisitor saver = new BasicSaveXMLTaskVisitor(new FileOutputStream(selectedFile));
+        saver.visit(taskList);
+    }
+
+    public void deleteTask(ActionEvent actionEvent) {
+        TreeItem<Task> treeItem = treeView.getSelectionModel().getSelectedItem();
+        TreeItem<Task> parent = treeItem.getParent();
+        Task selectedItem = treeItem.getValue();
+        if (parent == treeView.getRoot()) {
+            taskList.removeTask(selectedItem);
+        } else {
+            Task parentTask = parent.getValue();
+            SubTaskDeletionVisitor visitor = new SubTaskDeletionVisitor(selectedItem);
+            parentTask.accept(visitor);
+        }
+        parent.getChildren().remove(treeItem);
     }
 
     private void createTreeViewColumns() {
-        this.createTreeViewTaskColumn("Description", "description");
-        this.createTreeViewTaskColumnIntegerFormat("Durée", "duration");
-        this.createTreeViewTaskColumnIntegerFormat("Pourcentage de complétion", "completionPercentage");
-        this.createTreeViewTaskColumnDateFormat("Date de fin", "endDate");
-        this.createTreeViewTaskColumnEnumPriorityFormat("Priorité", "priority");
+        this.createTreeViewTaskColumnDescription();
+        this.createTreeViewTaskColumnDuration();
+        this.createTreeViewTaskColumnCompletionPercentage();
+        this.createTreeViewTaskColumnEndDateFormat();
+        this.createTreeViewTaskColumnEnumPriorityFormat();
     }
 
-    private void createTreeViewTaskColumn(String columnName, String propertyName) {
-        TreeTableColumn<Task, String> column = new TreeTableColumn<>(columnName);
-        column.setCellValueFactory(new TreeItemPropertyValueFactory<>(propertyName));
-        column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
+    private void createTreeViewTaskColumnDescription() {
+        TreeTableColumn<Task, String> column = new TreeTableColumn<>("Description");
+        column.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
+        column.setCellFactory(e -> new LimitedLengthTextFormatter()
+        );
+        column.setOnEditCommit(value -> commitValueInTask(
+                value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_DESCRIPTION)
+        );
+        column.setOnEditStart((event) -> cancelEditIfTaskPropertyNotEditable(DisabledPropertyTaskVisitor.PROPERTY_DESCRIPTION, event));
         treeView.getColumns().add(column);
     }
 
-    private void createTreeViewTaskColumnDateFormat(String columnName, String propertyName) {
-        TreeTableColumn<Task, LocalDate> column = new TreeTableColumn<>(columnName);
-        column.setCellValueFactory(new TreeItemPropertyValueFactory<>(propertyName));
+    private void createTreeViewTaskColumnEndDateFormat() {
+        TreeTableColumn<Task, LocalDate> column = new TreeTableColumn<>("Date de fin");
+        column.setCellValueFactory(new TreeItemPropertyValueFactory<>("endDate"));
         column.setCellFactory(col -> new DateEditingCell());
+        column.setOnEditCommit(value -> commitValueInTask(
+                value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_END_DATE)
+        );
+        column.setOnEditStart((event) -> cancelEditIfTaskPropertyNotEditable(DisabledPropertyTaskVisitor.PROPERTY_END_DATE, event));
         treeView.getColumns().add(column);
     }
 
-    private void createTreeViewTaskColumnIntegerFormat(String columnName, String propertyName) {
-        TreeTableColumn<Task, Integer> column = new TreeTableColumn<>(columnName);
-        column.setCellValueFactory(new TreeItemPropertyValueFactory<>(propertyName));
+    private void createTreeViewTaskColumnDuration() {
+        TreeTableColumn<Task, Integer> column = new TreeTableColumn<>("Durée");
+        column.setCellValueFactory(new TreeItemPropertyValueFactory<>("duration"));
         column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new IntegerStringConverter()));
+        column.setOnEditCommit(value -> commitValueInTask(
+                value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_DURATION)
+        );
+        column.setOnEditStart((event) -> cancelEditIfTaskPropertyNotEditable(DisabledPropertyTaskVisitor.PROPERTY_DURATION, event));
         treeView.getColumns().add(column);
     }
 
-    private void createTreeViewTaskColumnEnumPriorityFormat(String columnName, String propertyName) {
-        TreeTableColumn<Task, Priority> column = new TreeTableColumn<>(columnName);
-        column.setCellValueFactory(new TreeItemPropertyValueFactory<>(propertyName));
+    private void createTreeViewTaskColumnCompletionPercentage() {
+        TreeTableColumn<Task, Integer> column = new TreeTableColumn<>("Pourcentage de complétion");
+        column.setCellValueFactory(new TreeItemPropertyValueFactory<>("completionPercentage"));
+        column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new IntegerStringConverter()));
+        column.setOnEditCommit(value -> commitValueInTask(
+                value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_COMPLETION_PERCENTAGE)
+        );
+        column.setOnEditStart((event) -> cancelEditIfTaskPropertyNotEditable(DisabledPropertyTaskVisitor.PROPERTY_COMPLETION_PERCENTAGE, event));
+        treeView.getColumns().add(column);
+    }
+
+    private void createTreeViewTaskColumnEnumPriorityFormat() {
+        TreeTableColumn<Task, Priority> column = new TreeTableColumn<>("Priorité");
+        column.setCellValueFactory(new TreeItemPropertyValueFactory<>("priority"));
         column.setCellFactory(col -> {
             ComboBoxTreeTableCell<Task, Priority> tc = new ComboBoxTreeTableCell<>(
                     new StringConverter<>() {
@@ -124,6 +184,11 @@ public class TaskVisualizationController implements Initializable {
             tc.setComboBoxEditable(true);
             return tc;
         });
+        column.setOnEditCommit(value -> value.getRowValue().getValue().setPriority(value.getNewValue()));
+        column.setOnEditCommit(value -> commitValueInTask(
+                value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_PRIORITY)
+        );
+        column.setOnEditStart((event) -> cancelEditIfTaskPropertyNotEditable(DisabledPropertyTaskVisitor.PROPERTY_PRIORITY, event));
         treeView.getColumns().add(column);
     }
 
@@ -168,18 +233,21 @@ public class TaskVisualizationController implements Initializable {
             taskList.addTask(newTask);
             treeView.getRoot().getChildren().add(newItem);
         }
+        treeView.refresh();
     }
 
-
-    public void selectDirectoryToSaveFile(ActionEvent actionEvent) throws IOException {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Où sauvegarder le fichier ?");
-
-        File selectedFile = chooser.showSaveDialog(treeView.getScene().getWindow());
-        if (!selectedFile.createNewFile()) {
-            return;
+    private void cancelEditIfTaskPropertyNotEditable(String property, TreeTableColumn.CellEditEvent<Task, ?> event) {
+        DisabledPropertyTaskVisitor visitor = new DisabledPropertyTaskVisitor(property);
+        visitor.visit(event.getRowValue().getValue());
+        if (visitor.isDisabled()) {
+            event.consume();
+            treeView.refresh();
         }
-        BasicSaveXMLTaskVisitor saver = new BasicSaveXMLTaskVisitor(new FileOutputStream(selectedFile));
-        saver.visit(taskList);
+    }
+
+    private void commitValueInTask(Task task, Object newValue, String propertyName) {
+        CommitModificationTaskVisitor visitor = new CommitModificationTaskVisitor(propertyName, newValue);
+        visitor.visit(task);
+        treeView.refresh();
     }
 }

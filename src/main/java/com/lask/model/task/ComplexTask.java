@@ -49,11 +49,12 @@ public abstract class ComplexTask implements Task {
         subTasks.add(task);
     }
 
+
     /**
      * removeSubTask : remove the specified task from the sub-tasks list
      * @param task Task, the task to remove
      */
-    void removeSubTask(Task task) {
+    public void removeSubTask(Task task) {
         assert subTasks.contains(task);
         subTasks.remove(task);
     }

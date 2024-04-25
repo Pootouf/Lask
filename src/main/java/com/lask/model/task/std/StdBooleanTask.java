@@ -8,13 +8,13 @@ import java.time.LocalDate;
 
 public class StdBooleanTask implements BooleanTask {
 
-    private final String desc;
+    private String desc;
 
-    private final LocalDate endDate;
+    private LocalDate endDate;
 
-    private final Priority priority;
+    private Priority priority;
 
-    private final int duration;
+    private int duration;
 
     private boolean isFinished;
 
@@ -34,6 +34,16 @@ public class StdBooleanTask implements BooleanTask {
     @Override
     public void setFinished(boolean finished) {
         isFinished = finished;
+    }
+
+    @Override
+    public void setEndDate(LocalDate date) {
+        this.endDate = date;
+    }
+
+    @Override
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     @Override
@@ -64,6 +74,16 @@ public class StdBooleanTask implements BooleanTask {
     @Override
     public String getDescription() {
         return desc;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.desc = description;
+    }
+
+    @Override
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
     @Override

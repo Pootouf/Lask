@@ -4,8 +4,8 @@
 
 
 <!ELEMENT basicTask (desc, endDate, priority, duration, percentageCompletion)>
-<!ELEMENT complexTask (desc, endDate, priority, (basicTask|complexTask|booleanTask)*)>
 <!ELEMENT booleanTask (desc, endDate, priority, duration, isFinished)>
+<!ELEMENT complexTask (desc, priority, (basicTask|complexTask|booleanTask)*)>
 
 <!ELEMENT desc (#PCDATA)>
 

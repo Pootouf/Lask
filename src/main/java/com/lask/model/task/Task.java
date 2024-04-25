@@ -57,6 +57,17 @@ public interface Task {
      */
     boolean isLeaf();
 
+    /**
+     * setDescription: set the description of the task
+     * @param description the description of the task to set
+     */
+    void setDescription(String description);
+    
+    /**
+     * setPriority: set the task's priority (enum value)
+     * @param priority the priority of the task
+     */
+    void setPriority(Priority priority);
 
     /**
      * accept : call the appropriate method of the visitor

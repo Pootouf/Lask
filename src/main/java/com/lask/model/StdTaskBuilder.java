@@ -12,18 +12,23 @@ public class StdTaskBuilder implements TaskBuilder {
 
     private final AbstractTaskFactory factory;
     private final TaskList result;
-    private String description;
+
+    private final Stack<String> descriptionStack;
+    private final Stack<Integer> priorityStack;
     private LocalDate endDate;
     private Integer duration;
-    private Integer priority;
     private Boolean finished;
     private Integer completionPercentage;
+
     private final Stack<State> states;
     private final Stack<List<Task>> childsStack;
 
     public StdTaskBuilder(AbstractTaskFactory factory) {
         result = factory.createTaskList();
         states = new Stack<>();
+        descriptionStack = new Stack<>();
+        priorityStack = new Stack<>();
+        states.push(State.NONE);
         childsStack = new Stack<>();
         this.factory = factory;
     }
@@ -62,7 +67,7 @@ public class StdTaskBuilder implements TaskBuilder {
         if (states.lastElement() == State.NONE) {
             throw new IllegalArgumentException("Can't set the description of nothing");
         }
-        this.description = desc;
+        this.descriptionStack.push(desc);
     }
 
     @Override
@@ -86,7 +91,7 @@ public class StdTaskBuilder implements TaskBuilder {
         if (states.lastElement() == State.NONE) {
             throw new IllegalArgumentException("Can't set the priority of nothing");
         }
-        this.priority = priority;
+        this.priorityStack.push(priority);
     }
 
     @Override
@@ -110,36 +115,41 @@ public class StdTaskBuilder implements TaskBuilder {
         switch (states.pop()) {
             case NONE -> throw new IllegalArgumentException("No task to create");
             case BASIC_TASK -> {
-                if (description == null || endDate == null || priority == null
+                if (descriptionStack.isEmpty() || priorityStack.isEmpty() || endDate == null
                         || duration == null || completionPercentage == null || finished != null) {
                     throw new IllegalArgumentException("Some fields are missing or wrong fields are filled for the basic task");
                 }
-                BasicTask task = this.factory.createBasicTask(description, endDate,
-                        Priority.getPriorityFromInt(priority), duration, completionPercentage);
+                BasicTask task = this.factory.createBasicTask(descriptionStack.pop(), endDate,
+                        Priority.getPriorityFromInt(priorityStack.pop()), duration, completionPercentage);
                 manageTaskTreeStructure(task);
             }
             case BOOLEAN_TASK -> {
-                if (description == null || endDate == null || priority == null || duration == null || finished == null
+                if (descriptionStack.isEmpty() || priorityStack.isEmpty() || endDate == null
+                        || duration == null || finished == null
                         || completionPercentage != null) {
                     throw new IllegalArgumentException("Some fields are missing or wrong fields are filled for the boolean task");
                 }
-                BooleanTask task = this.factory.createBooleanTask(description, endDate,
-                        Priority.getPriorityFromInt(priority), duration, finished);
+                BooleanTask task = this.factory.createBooleanTask(descriptionStack.pop(), endDate,
+                        Priority.getPriorityFromInt(priorityStack.pop()), duration, finished);
                 manageTaskTreeStructure(task);
             }
             case COMPLEX_TASK -> {
-                if (description == null || endDate != null || priority == null || duration != null
-                        || finished != null || completionPercentage != null) {
+                if (descriptionStack.isEmpty() || priorityStack.isEmpty() || endDate != null
+                        || duration != null || finished != null || completionPercentage != null) {
                     throw new IllegalArgumentException("Some fields are missing or wrong fields are filled for the complex task");
                 }
-                ComplexTask task = this.factory.createComplexTask(description,
-                        Priority.getPriorityFromInt(priority));
+                ComplexTask task = this.factory.createComplexTask(descriptionStack.pop(),
+                        Priority.getPriorityFromInt(priorityStack.pop()));
                 for (Task child : childsStack.pop()) {
                     task.addSubTask(child);
                 }
                 manageTaskTreeStructure(task);
             }
         }
+        endDate = null;
+        duration = null;
+        finished = null;
+        completionPercentage = null;
     }
 
     /**
