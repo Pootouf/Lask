@@ -1,6 +1,6 @@
 package com.lask.controller;
 
-import com.lask.HelloApplication;
+import com.lask.TaskEditApplication;
 import com.lask.model.AbstractTaskFactory;
 import com.lask.model.StdTaskBuilder;
 import com.lask.model.StdTaskFactory;
@@ -29,7 +29,7 @@ public class LaskController {
 
     @FXML
     public void createNewTaskList(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("task-visualization.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(TaskEditApplication.class.getResource("task-visualization.fxml"));
         Parent newRoot = fxmlLoader.load();
         root.getScene().setRoot(newRoot);
     }
@@ -48,7 +48,7 @@ public class LaskController {
         XMLTaskLoader loader = new XMLTaskLoader(builder);
         loader.loadFile(selectedFile);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("task-visualization.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(TaskEditApplication.class.getResource("task-visualization.fxml"));
         Parent newRoot = fxmlLoader.load();
         TreeTableView<Task> tree = (TreeTableView<Task>) newRoot.lookup("#treeView");
 
