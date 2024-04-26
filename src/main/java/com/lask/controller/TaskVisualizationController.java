@@ -113,8 +113,7 @@ public class TaskVisualizationController implements Initializable {
     private void createTreeViewTaskColumnDescription() {
         TreeTableColumn<Task, String> column = new TreeTableColumn<>("Description");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
-        column.setCellFactory(e -> new LimitedLengthTextFormatter()
-        );
+        column.setCellFactory(e -> new LimitedLengthTextFormatter());
         column.setOnEditCommit(value -> commitValueInTask(
                 value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_DESCRIPTION)
         );

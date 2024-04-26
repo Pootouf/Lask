@@ -2,25 +2,29 @@ package com.lask.view;
 
 import com.lask.model.task.Task;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
-import javafx.util.converter.DefaultStringConverter;
+import javafx.util.StringConverter;
 
 public class LimitedLengthTextFormatter extends TextFieldTreeTableCell<Task, String> {
 
     public final int MAX_LENGTH = 20;
 
     public LimitedLengthTextFormatter() {
-        this.setConverter(new DefaultStringConverter());
-    }
-
-    @Override
-    public void updateItem(String item, boolean empty) {
-        if (isEmpty() || item == null) {
-            super.updateItem(item, empty);
-        } else {
-            if (item.length() > MAX_LENGTH) {
-                item = getItem();
+        this.setConverter(new StringConverter<String>() {
+            @Override
+            public String toString(String object) {
+                if (object.length() > MAX_LENGTH) {
+                    return object.substring(0, MAX_LENGTH);
+                }
+                return object;
             }
-            super.updateItem(item, empty);
-        }
+
+            @Override
+            public String fromString(String string) {
+                if (string.length() > MAX_LENGTH) {
+                    return string.substring(0, MAX_LENGTH);
+                }
+                return string;
+            }
+        });
     }
 }
