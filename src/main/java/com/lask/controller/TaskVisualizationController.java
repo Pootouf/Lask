@@ -7,6 +7,7 @@ import com.lask.model.task.TaskList;
 import com.lask.model.task.std.Priority;
 import com.lask.model.xml.BasicSaveXMLTaskVisitor;
 import com.lask.view.*;
+import com.lask.view.task.visitor.CommitModificationTaskVisitor;
 import com.lask.view.task.visitor.SubTaskCreationVisitor;
 import com.lask.view.task.visitor.SubTaskDeletionVisitor;
 import javafx.beans.binding.Bindings;
@@ -74,6 +75,18 @@ public class TaskVisualizationController implements Initializable {
                 )
         );
 
+    }
+
+    public void finishSelectedTask(ActionEvent actionEvent) {
+        TreeItem<Task> selectedTask = treeView.getSelectionModel().getSelectedItem();
+        if (selectedTask == null) {
+            return;
+        }
+        CommitModificationTaskVisitor visitor = new CommitModificationTaskVisitor(
+                CommitModificationTaskVisitor.PROPERTY_FINISHED, true
+        );
+        visitor.visit(selectedTask.getValue());
+        treeView.refresh();
     }
 
     public void selectDirectoryToSaveFile(ActionEvent actionEvent) throws IOException {

@@ -12,6 +12,9 @@ public class LimitedLengthTextFormatter extends TextFieldTreeTableCell<Task, Str
         this.setConverter(new StringConverter<String>() {
             @Override
             public String toString(String object) {
+                if (object == null) {
+                    return "";
+                }
                 if (object.length() > MAX_LENGTH) {
                     return object.substring(0, MAX_LENGTH);
                 }
@@ -20,6 +23,9 @@ public class LimitedLengthTextFormatter extends TextFieldTreeTableCell<Task, Str
 
             @Override
             public String fromString(String string) {
+                if (string == null) {
+                    return "";
+                }
                 if (string.length() > MAX_LENGTH) {
                     return string.substring(0, MAX_LENGTH);
                 }

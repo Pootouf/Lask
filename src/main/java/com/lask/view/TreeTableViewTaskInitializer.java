@@ -86,7 +86,16 @@ public class TreeTableViewTaskInitializer {
     private void createTreeViewTaskColumnCompletionPercentage() {
         TreeTableColumn<Task, Integer> column = new TreeTableColumn<>("Pourcentage de complétion");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("completionPercentage"));
-        column.setCellFactory(col -> createEventFilterToEditCell(new TextFieldTreeTableCell<>(new IntegerStringConverter())));
+        column.setCellFactory(col -> createEventFilterToEditCell(new TextFieldTreeTableCell<>(new IntegerStringConverter() {
+            @Override
+            public Integer fromString(String value) {
+                int result = Integer.parseInt(value);
+                if (result > 100) {
+                    result = 100;
+                }
+                return result;
+            }
+        })));
         column.setOnEditCommit(value -> commitValueInTask(
                 value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_COMPLETION_PERCENTAGE)
         );
@@ -101,7 +110,6 @@ public class TreeTableViewTaskInitializer {
         TreeTableColumn<Task, Priority> column = new TreeTableColumn<>("Priorité");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("priority"));
         column.setCellFactory(col -> createEventFilterToEditCell(new ComboBoxPriorityTreeTableCell()));
-        column.setOnEditCommit(value -> value.getRowValue().getValue().setPriority(value.getNewValue()));
         column.setOnEditCommit(value -> commitValueInTask(
                 value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_PRIORITY)
         );
