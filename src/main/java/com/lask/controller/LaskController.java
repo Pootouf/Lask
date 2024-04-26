@@ -1,6 +1,7 @@
 package com.lask.controller;
 
 import com.lask.TaskEditApplication;
+import com.lask.controller.util.TaskFileManagement;
 import com.lask.model.AbstractTaskFactory;
 import com.lask.model.StdTaskBuilder;
 import com.lask.model.StdTaskFactory;
@@ -32,26 +33,10 @@ public class LaskController {
 
     @FXML
     public void loadNewTaskList(ActionEvent actionEvent) throws IOException {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Charger quel fichier ?");
-
-        File selectedFile = chooser.showOpenDialog(root.getScene().getWindow());
-        if (selectedFile == null || !selectedFile.isFile()) {
+        Parent newRoot = TaskFileManagement.getLoadedTaskFile(root.getScene().getWindow());
+        if (newRoot == null) {
             return;
         }
-        AbstractTaskFactory factory = new StdTaskFactory();
-        StdTaskBuilder builder = new StdTaskBuilder(factory);
-        XMLTaskLoader loader = new XMLTaskLoader(builder);
-        loader.loadFile(selectedFile);
-
-        FXMLLoader fxmlLoader = new FXMLLoader(TaskEditApplication.class.getResource("task-visualization.fxml"));
-        Parent newRoot = fxmlLoader.load();
-        TreeTableView<Task> tree = (TreeTableView<Task>) newRoot.lookup("#treeView");
-
-        TaskList list = builder.getTaskList();
-        TreeItemTaskVisitor visitor = new TreeItemTaskVisitor(tree.getRoot());
-        visitor.visit(list);
-
         root.getScene().setRoot(newRoot);
     }
 }
