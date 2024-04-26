@@ -1,4 +1,4 @@
-package com.lask.view;
+package com.lask.view.task.visitor;
 
 import com.lask.model.TaskVisitor;
 import com.lask.model.task.BasicTask;
@@ -19,8 +19,6 @@ public class CommitModificationTaskVisitor implements TaskVisitor {
 
     private final String taskPropertyName;
     private final Object taskPropertyValue;
-
-    private boolean disabled;
 
     public CommitModificationTaskVisitor(String taskPropertyName, Object value) {
         this.taskPropertyName = taskPropertyName;

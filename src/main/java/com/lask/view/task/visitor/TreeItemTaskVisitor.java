@@ -1,4 +1,4 @@
-package com.lask.view;
+package com.lask.view.task.visitor;
 
 import com.lask.model.TaskVisitor;
 import com.lask.model.task.*;

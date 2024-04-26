@@ -7,17 +7,19 @@ import com.lask.model.task.TaskList;
 import com.lask.model.task.std.Priority;
 import com.lask.model.xml.BasicSaveXMLTaskVisitor;
 import com.lask.view.*;
+import com.lask.view.task.visitor.CommitModificationTaskVisitor;
+import com.lask.view.task.visitor.DisabledPropertyTaskVisitor;
+import com.lask.view.task.visitor.SubTaskCreationVisitor;
+import com.lask.view.task.visitor.SubTaskDeletionVisitor;
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
-import javafx.util.StringConverter;
-import javafx.util.converter.IntegerStringConverter;
+import javafx.stage.FileChooser;import javafx.util.converter.IntegerStringConverter;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -113,7 +115,7 @@ public class TaskVisualizationController implements Initializable {
     private void createTreeViewTaskColumnDescription() {
         TreeTableColumn<Task, String> column = new TreeTableColumn<>("Description");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
-        column.setCellFactory(e -> new LimitedLengthTextFormatter());
+        column.setCellFactory(e -> createEventFilterToEditCell(new LimitedLengthTextFormatter()));
         column.setOnEditCommit(value -> commitValueInTask(
                 value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_DESCRIPTION)
         );
@@ -124,7 +126,7 @@ public class TaskVisualizationController implements Initializable {
     private void createTreeViewTaskColumnEndDateFormat() {
         TreeTableColumn<Task, LocalDate> column = new TreeTableColumn<>("Date de fin");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("endDate"));
-        column.setCellFactory(col -> new DateEditingCell());
+        column.setCellFactory(col -> createEventFilterToEditCell(new DateEditingCell()));
         column.setOnEditCommit(value -> commitValueInTask(
                 value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_END_DATE)
         );
@@ -135,7 +137,7 @@ public class TaskVisualizationController implements Initializable {
     private void createTreeViewTaskColumnDuration() {
         TreeTableColumn<Task, Integer> column = new TreeTableColumn<>("Durée");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("duration"));
-        column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new IntegerStringConverter()));
+        column.setCellFactory(col -> createEventFilterToEditCell(new TextFieldTreeTableCell<>(new IntegerStringConverter())));
         column.setOnEditCommit(value -> commitValueInTask(
                 value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_DURATION)
         );
@@ -146,7 +148,7 @@ public class TaskVisualizationController implements Initializable {
     private void createTreeViewTaskColumnCompletionPercentage() {
         TreeTableColumn<Task, Integer> column = new TreeTableColumn<>("Pourcentage de complétion");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("completionPercentage"));
-        column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new IntegerStringConverter()));
+        column.setCellFactory(col -> createEventFilterToEditCell(new TextFieldTreeTableCell<>(new IntegerStringConverter())));
         column.setOnEditCommit(value -> commitValueInTask(
                 value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_COMPLETION_PERCENTAGE)
         );
@@ -157,32 +159,7 @@ public class TaskVisualizationController implements Initializable {
     private void createTreeViewTaskColumnEnumPriorityFormat() {
         TreeTableColumn<Task, Priority> column = new TreeTableColumn<>("Priorité");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("priority"));
-        column.setCellFactory(col -> {
-            ComboBoxTreeTableCell<Task, Priority> tc = new ComboBoxTreeTableCell<>(
-                    new StringConverter<>() {
-                        @Override
-                        public String toString(Priority priority) {
-                            return switch (priority) {
-                                case NORMAL -> "NORMAL";
-                                case SECONDARY -> "SECONDAIRE";
-                                case URGENT -> "URGENT";
-                            };
-                        }
-
-                        @Override
-                        public Priority fromString(String s) {
-                            return switch (s) {
-                                case "URGENT" -> Priority.URGENT;
-                                case "NORMAL" -> Priority.NORMAL;
-                                case "SECONDAIRE" -> Priority.SECONDARY;
-                                default -> throw new IllegalArgumentException("Not a valid string to receive");
-                            };
-                        }
-                    }, FXCollections.observableArrayList(Priority.values())
-            );
-            tc.setComboBoxEditable(true);
-            return tc;
-        });
+        column.setCellFactory(col -> createEventFilterToEditCell(new ComboBoxPriorityTreeTableCell()));
         column.setOnEditCommit(value -> value.getRowValue().getValue().setPriority(value.getNewValue()));
         column.setOnEditCommit(value -> commitValueInTask(
                 value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_PRIORITY)
@@ -248,5 +225,15 @@ public class TaskVisualizationController implements Initializable {
         CommitModificationTaskVisitor visitor = new CommitModificationTaskVisitor(propertyName, newValue);
         visitor.visit(task);
         treeView.refresh();
+    }
+
+    private <S, T> TreeTableCell<S, T> createEventFilterToEditCell(TreeTableCell<S, T> cell) {
+        cell.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
+                cell.startEdit();
+                event.consume();
+            }
+        });
+        return cell;
     }
 }

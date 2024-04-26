@@ -1,4 +1,4 @@
-package com.lask.view;
+package com.lask.view.task.visitor;
 
 import com.lask.model.TaskVisitor;
 import com.lask.model.task.BasicTask;
@@ -6,11 +6,11 @@ import com.lask.model.task.BooleanTask;
 import com.lask.model.task.ComplexTask;
 import com.lask.model.task.Task;
 
-public class SubTaskDeletionVisitor implements TaskVisitor {
+public class SubTaskCreationVisitor implements TaskVisitor {
 
     private final Task children;
 
-    public SubTaskDeletionVisitor(Task children) {
+    public SubTaskCreationVisitor(Task children) {
         this.children = children;
     }
 
@@ -30,6 +30,6 @@ public class SubTaskDeletionVisitor implements TaskVisitor {
 
     @Override
     public void visitComplexTask(ComplexTask complexTask) {
-        complexTask.removeSubTask(children);
+        complexTask.addSubTask(children);
     }
 }
