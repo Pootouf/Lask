@@ -22,7 +22,7 @@
 
     <VBox alignment="CENTER" prefHeight="800" prefWidth="1500">
         <TreeTableView fx:id="treeView" editable="true" prefHeight="200.0" prefWidth="200.0" showRoot="false" tableMenuButtonVisible="true" />
-        <Button onAction="#finishSelectedTask" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Finir la tâche sélectionnée" />
+        <Button fx:id="finishButton" onAction="#finishSelectedTask" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Finir la tâche sélectionnée" />
         <Button fx:id="deleteButton" onAction="#deleteTask" prefHeight="25.0" prefWidth="164.0" text="Supprimer la sélection" />
         <Button onAction="#selectDirectoryToSaveFile" text="Sauvegarder au format XML" />
     </VBox>

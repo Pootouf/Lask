@@ -43,6 +43,9 @@ import java.util.ResourceBundle;
 public class TaskVisualizationController implements Initializable {
 
     @FXML
+    private Button finishButton;
+
+    @FXML
     private VBox rootVBox;
     @FXML
     private MenuBar menuBar;
@@ -83,6 +86,7 @@ public class TaskVisualizationController implements Initializable {
         root.setExpanded(true);
         treeView.setRoot(root);
         treeView.setContextMenu(createContextMenu());
+        treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         treeView.setRowFactory(tableView2 -> {
             final TreeTableRow<Task> row = new TreeTableRow<>();
@@ -100,6 +104,11 @@ public class TaskVisualizationController implements Initializable {
         });
 
         deleteButton.disableProperty().bind(
+                Bindings.isEmpty(
+                        treeView.getSelectionModel().getSelectedItems()
+                )
+        );
+        finishButton.disableProperty().bind(
                 Bindings.isEmpty(
                         treeView.getSelectionModel().getSelectedItems()
                 )
