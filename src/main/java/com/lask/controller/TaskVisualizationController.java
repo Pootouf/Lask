@@ -31,7 +31,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -55,7 +54,7 @@ public class TaskVisualizationController implements Initializable {
     @FXML
     private TreeTableView<Task> treeView;
 
-    private final TaskList taskList;
+    private TaskList taskList;
 
     private final AbstractTaskFactory taskFactory;
 
@@ -194,10 +193,8 @@ public class TaskVisualizationController implements Initializable {
      * @throws IOException when opening the file if an error occurred
      */
     public void openFile(ActionEvent actionEvent) throws IOException {
-        Parent newRoot = TaskFileManagement.getLoadedTaskFile(rootVBox.getScene().getWindow());
-        if (newRoot == null) {
-            return;
-        }
+        taskList = TaskFileManagement.getTaskListFromFileChooser(rootVBox.getScene().getWindow());
+        Parent newRoot = TaskFileManagement.getLoadedTaskFile(taskList);
         rootVBox.getScene().setRoot(newRoot);
     }
 
@@ -226,6 +223,14 @@ public class TaskVisualizationController implements Initializable {
             };
             new Thread(runnable).start();
         }
+    }
+
+    /**
+     * setTaskList: set the task list associated with the controller
+     * @param taskList the new task list
+     */
+    public void setTaskList(TaskList taskList) {
+        this.taskList = taskList;
     }
 
     /**

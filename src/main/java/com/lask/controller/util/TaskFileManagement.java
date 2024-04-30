@@ -1,6 +1,7 @@
 package com.lask.controller.util;
 
 import com.lask.TaskEditApplication;
+import com.lask.controller.TaskVisualizationController;
 import com.lask.model.AbstractTaskFactory;
 import com.lask.model.StdTaskBuilder;
 import com.lask.model.StdTaskFactory;
@@ -23,13 +24,11 @@ import java.io.IOException;
 public class TaskFileManagement {
 
     /**
-     * getLoadedTaskFile : open the explorer and process the given file to transform it into task list
-     *                      and return the editing view of the selected task list
+     * getTaskListFromFileChooser: open the explorer and process the given file to transform it into task list
      * @param window the window of the application used to open the file chooser
-     * @return the editing view of the selected task list
-     * @throws IOException if the file cannot be loaded
+     * @return the task list
      */
-    public static Parent getLoadedTaskFile(Window window) throws IOException {
+    public static TaskList getTaskListFromFileChooser(Window window) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Charger quel fichier ?");
 
@@ -42,14 +41,22 @@ public class TaskFileManagement {
         XMLTaskLoader loader = new XMLTaskLoader(builder);
         loader.loadFile(selectedFile);
 
+        return builder.getTaskList();
+    }
+
+    /**
+     * getLoadedTaskFile : return the editing view of the selected task list
+     * @param taskList the task list to edit
+     * @return the editing view of the selected task list
+     * @throws IOException if the file cannot be loaded
+     */
+    public static Parent getLoadedTaskFile(TaskList taskList) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(TaskEditApplication.class.getResource("task-visualization.fxml"));
         Parent newRoot = fxmlLoader.load();
+        ((TaskVisualizationController) fxmlLoader.getController()).setTaskList(taskList);
         TreeTableView<Task> tree = (TreeTableView<Task>) newRoot.lookup("#treeView");
-
-        TaskList list = builder.getTaskList();
         TreeItemTaskVisitor visitor = new TreeItemTaskVisitor(tree.getRoot());
-        visitor.visit(list);
-
+        visitor.visit(taskList);
         return newRoot;
     }
 }
