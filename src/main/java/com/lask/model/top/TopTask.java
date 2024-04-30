@@ -3,7 +3,6 @@ package com.lask.model.top;
 import com.lask.model.AbstractTaskFactory;
 import com.lask.model.StdTaskBuilder;
 import com.lask.model.StdTaskFactory;
-import com.lask.model.TaskBuilder;
 import com.lask.model.task.Task;
 import com.lask.model.task.TaskList;
 import com.lask.model.xml.XMLTaskLoader;
@@ -41,7 +40,9 @@ public class TopTask {
                   return task1.getEndDate().isBefore(task2.getEndDate()) ? -1 : 1;
               }
         );
-
+        if (unfinishedTasks.size() <= 5) {
+            return unfinishedTasks;
+        }
         return unfinishedTasks.subList(0, 5);
     }
 }
