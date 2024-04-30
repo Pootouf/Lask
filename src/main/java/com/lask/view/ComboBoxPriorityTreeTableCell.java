@@ -33,7 +33,6 @@ public class ComboBoxPriorityTreeTableCell extends ComboBoxTreeTableCell<Task, P
                 };
             }
         }, FXCollections.observableArrayList(Priority.values()));
-        this.setComboBoxEditable(true);
     }
 
 }

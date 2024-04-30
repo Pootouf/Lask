@@ -75,7 +75,16 @@ public class TreeTableViewTaskInitializer {
     private void createTreeViewTaskColumnDuration() {
         TreeTableColumn<Task, Integer> column = new TreeTableColumn<>("Durée");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("duration"));
-        column.setCellFactory(col -> createEventFilterToEditCell(new TextFieldTreeTableCell<>(new IntegerStringConverter())));
+        column.setCellFactory(col -> createEventFilterToEditCell(new TextFieldTreeTableCell<>(new IntegerStringConverter() {
+            @Override
+            public Integer fromString(String value) {
+                int result = Integer.parseInt(value);
+                if (result < 0) {
+                    result = 0;
+                }
+                return result;
+            }
+        })));
         column.setOnEditCommit(value -> commitValueInTask(
                 value.getRowValue().getValue(), value.getNewValue(), CommitModificationTaskVisitor.PROPERTY_DURATION)
         );
@@ -95,6 +104,9 @@ public class TreeTableViewTaskInitializer {
                 int result = Integer.parseInt(value);
                 if (result > 100) {
                     result = 100;
+                }
+                if (result < 0) {
+                    result = 0;
                 }
                 return result;
             }

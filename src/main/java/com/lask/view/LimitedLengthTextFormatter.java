@@ -1,6 +1,7 @@
 package com.lask.view;
 
 import com.lask.model.task.Task;
+import javafx.scene.control.Alert;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.util.StringConverter;
 
@@ -13,7 +14,7 @@ public class LimitedLengthTextFormatter extends TextFieldTreeTableCell<Task, Str
     public final int MAX_LENGTH = 20;
 
     public LimitedLengthTextFormatter() {
-        this.setConverter(new StringConverter<String>() {
+        this.setConverter(new StringConverter<>() {
             @Override
             public String toString(String object) {
                 if (object == null) {
@@ -31,6 +32,10 @@ public class LimitedLengthTextFormatter extends TextFieldTreeTableCell<Task, Str
                     return "";
                 }
                 if (string.length() > MAX_LENGTH) {
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setHeaderText("Le texte est trop long");
+                    errorAlert.setContentText("La limite de caractère est de 20");
+                    errorAlert.showAndWait();
                     return string.substring(0, MAX_LENGTH);
                 }
                 return string;
