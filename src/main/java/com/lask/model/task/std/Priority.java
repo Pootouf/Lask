@@ -15,10 +15,18 @@ public enum Priority {
         this.priority = priority;
     }
 
+    /**
+     * getPriority : the value of the priority
+     * @return the priority value
+     */
     public int getPriority() {
         return priority;
     }
 
+    /**
+     * toString : return the string value of the priority
+     * @return the string
+     */
     @Override
     public String toString() {
         return String.valueOf(priority);
@@ -26,7 +34,7 @@ public enum Priority {
 
     /**
      * getPriorityFromInt: return the associated priority with the value
-     * @param value
+     * @param value the priority value
      * @return the priority
      */
     public static Priority getPriorityFromInt(int value) {

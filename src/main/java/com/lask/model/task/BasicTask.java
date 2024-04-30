@@ -2,6 +2,11 @@ package com.lask.model.task;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a basic task.
+ * A basic task is a progressive task, so it has completion percentage property editable.
+ * Likewise, the end date and duration are also editable.
+ */
 public interface BasicTask extends Task {
 
     /**

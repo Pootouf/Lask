@@ -9,9 +9,15 @@ import java.time.LocalDate;
 /**
  * The implementation of a complex task.
  *
- * @inv
+ * <p>
  * desc != null
  * priority != null
+ * The duration is a sum of the children duration
+ * The completion percentage is a average of the completion percentage
+ *      of the sub tasks weighted by their duration.
+ * The end date of the complex task is the maximum of its children end date,
+ *      or the actual date if there are no children.
+ * </p>
  */
 public class StdComplexTask extends ComplexTask {
 

@@ -30,6 +30,9 @@ public class TreeTableViewTaskInitializer {
         this.treeTableView = treeTableView;
     }
 
+    /**
+     * createTreeViewColumns : create all the columns of the tree view to associate task properties with them
+     */
     public void createTreeViewColumns() {
         this.createTreeViewTaskColumnDescription();
         this.createTreeViewTaskColumnDuration();

@@ -9,6 +9,9 @@ import com.lask.model.task.std.Priority;
 
 import java.time.LocalDate;
 
+/**
+ * Modify the selected property in the task with the given value.
+ */
 public class CommitModificationTaskVisitor implements TaskVisitor {
     public static final String PROPERTY_DESCRIPTION = "Description";
     public static final String PROPERTY_END_DATE = "End date";
@@ -25,6 +28,10 @@ public class CommitModificationTaskVisitor implements TaskVisitor {
         this.taskPropertyValue = value;
     }
 
+    /**
+     * visit : visit the given task
+     * @param task the given task
+     */
     public void visit(Task task) {
         task.accept(this);
     }
@@ -37,6 +44,9 @@ public class CommitModificationTaskVisitor implements TaskVisitor {
             case PROPERTY_PRIORITY -> basicTask.setPriority((Priority) taskPropertyValue);
             case PROPERTY_DURATION -> basicTask.setDuration((Integer) taskPropertyValue);
             case PROPERTY_COMPLETION_PERCENTAGE -> basicTask.setCompletionPercentage((Integer) taskPropertyValue);
+            case PROPERTY_FINISHED -> basicTask.setCompletionPercentage(
+                    (Boolean) taskPropertyValue ? 100 : basicTask.getCompletionPercentage()
+            );
         }
     }
 

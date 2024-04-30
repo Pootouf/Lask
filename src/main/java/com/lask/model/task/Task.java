@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 /**
- * Represents a task, something that need to be done. It can either be complex or simple.
+ * Represents a task, something that need to be done. It can either be complex, basic or boolean.
  */
 public interface Task {
 

@@ -1,6 +1,7 @@
 package com.lask.controller;
 
 import com.lask.TaskEditApplication;
+import com.lask.controller.util.TaskFileManagement;
 import com.lask.model.AbstractTaskFactory;
 import com.lask.model.StdTaskBuilder;
 import com.lask.model.StdTaskFactory;
@@ -19,10 +20,19 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The controller of the home screen of the application.
+ * Manage the actions of the home screen of the application
+ */
 public class LaskController {
 
     public VBox root;
 
+    /**
+     * createNewTaskList : open the editing menu with a blank task list
+     * @param actionEvent the triggering event
+     * @throws IOException if the FXML file cannot be loaded
+     */
     @FXML
     public void createNewTaskList(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(TaskEditApplication.class.getResource("task-visualization.fxml"));
@@ -30,28 +40,17 @@ public class LaskController {
         root.getScene().setRoot(newRoot);
     }
 
+    /**
+     * loadNewTaskList : open the file explorer and then the editing menu with given task list
+     * @param actionEvent the triggering event
+     * @throws IOException if the file cannot be loaded
+     */
     @FXML
     public void loadNewTaskList(ActionEvent actionEvent) throws IOException {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Charger quel fichier ?");
-
-        File selectedFile = chooser.showOpenDialog(root.getScene().getWindow());
-        if (selectedFile == null || !selectedFile.isFile()) {
+        Parent newRoot = TaskFileManagement.getLoadedTaskFile(root.getScene().getWindow());
+        if (newRoot == null) {
             return;
         }
-        AbstractTaskFactory factory = new StdTaskFactory();
-        StdTaskBuilder builder = new StdTaskBuilder(factory);
-        XMLTaskLoader loader = new XMLTaskLoader(builder);
-        loader.loadFile(selectedFile);
-
-        FXMLLoader fxmlLoader = new FXMLLoader(TaskEditApplication.class.getResource("task-visualization.fxml"));
-        Parent newRoot = fxmlLoader.load();
-        TreeTableView<Task> tree = (TreeTableView<Task>) newRoot.lookup("#treeView");
-
-        TaskList list = builder.getTaskList();
-        TreeItemTaskVisitor visitor = new TreeItemTaskVisitor(tree.getRoot());
-        visitor.visit(list);
-
         root.getScene().setRoot(newRoot);
     }
 }

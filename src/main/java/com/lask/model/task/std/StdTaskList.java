@@ -6,6 +6,10 @@ import com.lask.model.task.TaskList;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The implementation of the task list interface.
+ * tasks != null
+ */
 public class StdTaskList implements TaskList {
 
     private final List<Task> tasks;

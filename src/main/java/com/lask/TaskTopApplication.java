@@ -10,8 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Hello world!
- *
+ * The application to display urgent tasks on the shell with provided file
  */
 public class TaskTopApplication
 {

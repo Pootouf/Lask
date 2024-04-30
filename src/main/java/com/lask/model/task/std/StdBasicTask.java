@@ -5,6 +5,12 @@ import com.lask.model.task.BasicTask;
 
 import java.time.LocalDate;
 
+/**
+ * The implementation of the basic task interface.
+ *  desc != null
+ *  priority != null
+ *  endDate != null
+ */
 public class StdBasicTask implements BasicTask {
     private String desc;
 

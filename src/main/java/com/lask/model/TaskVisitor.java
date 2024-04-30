@@ -4,6 +4,9 @@ import com.lask.model.task.BasicTask;
 import com.lask.model.task.BooleanTask;
 import com.lask.model.task.ComplexTask;
 
+/**
+ * Allow implementors to do operation on the different task types.
+ */
 public interface TaskVisitor {
 
     /**
