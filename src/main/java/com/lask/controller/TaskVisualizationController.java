@@ -61,6 +61,9 @@ public class TaskVisualizationController implements Initializable {
         taskList = this.taskFactory.createTaskList();
     }
 
+    /**
+     * initialize : initialize the menu at the screen loading, create tree items, menu bar
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Menu menu = new Menu("Menu");
@@ -104,6 +107,10 @@ public class TaskVisualizationController implements Initializable {
 
     }
 
+    /**
+     * finishSelectedTask : set the completion percentage to 100% and finish the task
+     * @param actionEvent the triggering event
+     */
     public void finishSelectedTask(ActionEvent actionEvent) {
         TreeItem<Task> selectedTask = treeView.getSelectionModel().getSelectedItem();
         if (selectedTask == null) {
@@ -119,7 +126,6 @@ public class TaskVisualizationController implements Initializable {
     /**
      * selectDirectoryToSaveFile : open file explorer to enable the user to
      * choose where and how to save the file
-     *
      * @param actionEvent the triggering event
      * @throws IOException when an error occurred while opening the file
      */
@@ -137,7 +143,6 @@ public class TaskVisualizationController implements Initializable {
 
     /**
      * deleteTask : delete the selected task from the task list and the tree view
-     *
      * @param actionEvent, the triggering event
      */
     public void deleteTask(ActionEvent actionEvent) {
@@ -156,7 +161,6 @@ public class TaskVisualizationController implements Initializable {
 
     /**
      * returnToHomeScreen : open the home screen again and quit the editing menu
-     *
      * @param actionEvent, the triggering event
      * @throws IOException in case of wrong file opening
      */
@@ -168,7 +172,6 @@ public class TaskVisualizationController implements Initializable {
 
     /**
      * openNewFile : reset the task list and clear the tree view
-     *
      * @param actionEvent, the triggering event
      */
     public void openNewFile(ActionEvent actionEvent) {
@@ -178,7 +181,6 @@ public class TaskVisualizationController implements Initializable {
 
     /**
      * openFile : open the file explorer for the user to choose task file and open it in editor
-     *
      * @param actionEvent the triggering event
      * @throws IOException when opening the file if an error occurred
      */
@@ -192,13 +194,16 @@ public class TaskVisualizationController implements Initializable {
 
     /**
      * exit : terminate the application and return 0 code
-     *
      * @param actionEvent the triggering event
      */
     public void exit(ActionEvent actionEvent) {
         System.exit(0);
     }
 
+    /**
+     * openUserManual : open on browser the user manual of the application
+     * @param actionEvent the triggering event
+     */
     public void openUserManual(ActionEvent actionEvent) {
         if (Desktop.isDesktopSupported()) {
             Runnable runnable = () -> {
@@ -214,6 +219,11 @@ public class TaskVisualizationController implements Initializable {
         }
     }
 
+    /**
+     * createContextMenu : create the context menu of the tree table view to allow the user to add
+     *                      basic, complex or boolean task
+     * @return the context menu
+     */
     private ContextMenu createContextMenu() {
         ContextMenu addMenu = new ContextMenu();
 
@@ -241,6 +251,11 @@ public class TaskVisualizationController implements Initializable {
         return addMenu;
     }
 
+    /**
+     * manageNewTaskPlacement : place the task in the tree structure of the treeTableView and
+     *                          synchronize it with the task list
+     * @param newTask the task to add in tree structure
+     */
     private void manageNewTaskPlacement(Task newTask) {
         TreeItem<Task> newItem = new TreeItem<>(newTask);
         TreeItem<Task> selectedTask = treeView.getSelectionModel().getSelectedItem();

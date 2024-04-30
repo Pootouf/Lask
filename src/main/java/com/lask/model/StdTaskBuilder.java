@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * The implementation of the builder interface.
+ * factory != null
+ */
 public class StdTaskBuilder implements TaskBuilder {
 
     private final AbstractTaskFactory factory;
@@ -33,6 +37,10 @@ public class StdTaskBuilder implements TaskBuilder {
         this.factory = factory;
     }
 
+    /**
+     * getTaskList : return the task list built
+     * @return the TaskList
+     */
     public TaskList getTaskList() {
         return result;
     }
@@ -166,6 +174,9 @@ public class StdTaskBuilder implements TaskBuilder {
         }
     }
 
+    /**
+     * The enumeration of the possible states of the builder
+     */
     private enum State {
         BASIC_TASK,
         BOOLEAN_TASK,

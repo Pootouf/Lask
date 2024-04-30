@@ -13,6 +13,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
+/**
+ * Load an XML Task File and use the builder to create the task list associated with
+ */
 public class XMLTaskLoader {
     private boolean descFlag = false;
     private boolean priorityFlag = false;
@@ -26,6 +29,11 @@ public class XMLTaskLoader {
         this.taskBuilder = taskBuilder;
     }
 
+    /**
+     * loadFile : parse the given file and return the associated builder containing the task list
+     * @param inputFile the file to parse
+     * @return the builder
+     */
     public TaskBuilder loadFile(File inputFile) {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -38,6 +46,9 @@ public class XMLTaskLoader {
         return taskBuilder;
     }
 
+    /**
+     * Manage the parsing of an XML file containing a task list.
+     */
     private class TaskHandler extends DefaultHandler {
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {

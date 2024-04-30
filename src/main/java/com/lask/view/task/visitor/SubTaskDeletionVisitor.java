@@ -6,6 +6,9 @@ import com.lask.model.task.BooleanTask;
 import com.lask.model.task.ComplexTask;
 import com.lask.model.task.Task;
 
+/**
+ * Delete the given task as a child of a given parent task
+ */
 public class SubTaskDeletionVisitor implements TaskVisitor {
 
     private final Task children;
@@ -14,6 +17,10 @@ public class SubTaskDeletionVisitor implements TaskVisitor {
         this.children = children;
     }
 
+    /**
+     * visit : visit the given parent task
+     * @param task the given task
+     */
     public void visit(Task task) {
         task.accept(this);
     }

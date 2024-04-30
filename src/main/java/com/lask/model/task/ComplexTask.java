@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * Represents a complex task with a progression state and sub-tasks.
+ * A complex task is a progressive task that has derived properties.
+ * The properties calculation depends on the implementation.
  */
 public abstract class ComplexTask implements Task {
 

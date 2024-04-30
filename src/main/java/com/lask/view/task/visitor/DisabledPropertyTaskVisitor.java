@@ -6,6 +6,10 @@ import com.lask.model.task.BooleanTask;
 import com.lask.model.task.ComplexTask;
 import com.lask.model.task.Task;
 
+/**
+ * Indicate if the selected property is disabled for the edition for the task
+ * taskPropertyName != null
+ */
 public class DisabledPropertyTaskVisitor implements TaskVisitor {
 
     public static final String PROPERTY_DESCRIPTION = "Description";
@@ -23,10 +27,18 @@ public class DisabledPropertyTaskVisitor implements TaskVisitor {
         this.taskPropertyName = taskPropertyName;
     }
 
+    /**
+     * isDisabled : indicate if the task property is disabled
+     * @return the boolean
+     */
     public boolean isDisabled() {
         return disabled;
     }
 
+    /**
+     * visit : visit the given task
+     * @param task the given task
+     */
     public void visit(Task task) {
         task.accept(this);
     }

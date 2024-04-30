@@ -20,10 +20,19 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The controller of the home screen of the application.
+ * Manage the actions of the home screen of the application
+ */
 public class LaskController {
 
     public VBox root;
 
+    /**
+     * createNewTaskList : open the editing menu with a blank task list
+     * @param actionEvent the triggering event
+     * @throws IOException if the FXML file cannot be loaded
+     */
     @FXML
     public void createNewTaskList(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(TaskEditApplication.class.getResource("task-visualization.fxml"));
@@ -31,6 +40,11 @@ public class LaskController {
         root.getScene().setRoot(newRoot);
     }
 
+    /**
+     * loadNewTaskList : open the file explorer and then the editing menu with given task list
+     * @param actionEvent the triggering event
+     * @throws IOException if the file cannot be loaded
+     */
     @FXML
     public void loadNewTaskList(ActionEvent actionEvent) throws IOException {
         Parent newRoot = TaskFileManagement.getLoadedTaskFile(root.getScene().getWindow());

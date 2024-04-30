@@ -5,7 +5,17 @@ import com.lask.model.task.BooleanTask;
 
 import java.time.LocalDate;
 
-
+/**
+ * The implementation of the boolean task interface.
+ * <p>
+ * desc != null
+ * priority != null
+ * endDate != null
+ * The percentage completion is derived from finished property.
+ * If finished is true => percentage completion = 100
+ * Else => percentage completion = 0
+ * </p>
+ */
 public class StdBooleanTask implements BooleanTask {
 
     private String desc;

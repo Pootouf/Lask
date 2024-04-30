@@ -6,6 +6,9 @@ import javafx.scene.control.TreeItem;
 
 import java.util.Stack;
 
+/**
+ * Create tree item hierarchy of a task list
+ */
 public class TreeItemTaskVisitor implements TaskVisitor {
 
     private final Stack<TreeItem<Task>> stack = new Stack<>();
@@ -14,6 +17,10 @@ public class TreeItemTaskVisitor implements TaskVisitor {
         stack.push(root);
     }
 
+    /**
+     * visit : visit each task of a task list
+     * @param taskList the given task list
+     */
     public void visit(TaskList taskList) {
         for (Task task : taskList.getTaskList()) {
             task.accept(this);

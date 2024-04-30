@@ -3,6 +3,9 @@ package com.lask.model;
 import java.time.LocalDate;
 import java.util.Date;
 
+/**
+ * Build a task list with different tasks.
+ */
 public interface TaskBuilder {
 
     /**

@@ -8,6 +8,10 @@ import javafx.util.StringConverter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Extension of the TreeTableCell with Task and LocalDate parameterized types
+ * Use a date picker to enable the user to select the date on a calendar (or manually with the date string)
+ */
 public class DateEditingCell extends TreeTableCell<Task, LocalDate> {
 
     private DatePicker datePicker;
@@ -56,6 +60,9 @@ public class DateEditingCell extends TreeTableCell<Task, LocalDate> {
         }
     }
 
+    /**
+     * createDatePicker : create the date picker to select the date on calendar
+     */
     private void createDatePicker() {
         datePicker = new DatePicker(getDate());
         datePicker.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
@@ -84,6 +91,10 @@ public class DateEditingCell extends TreeTableCell<Task, LocalDate> {
         });
     }
 
+    /**
+     * getDate : return the selected date of the cell
+     * @return actual date if getItem() is null, getItem() otherwise
+     */
     private LocalDate getDate() {
         return getItem() == null ? LocalDate.now() : getItem();
     }

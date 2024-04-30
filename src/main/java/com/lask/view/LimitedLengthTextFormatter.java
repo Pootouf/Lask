@@ -4,6 +4,10 @@ import com.lask.model.task.Task;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.util.StringConverter;
 
+/**
+ * Extension of the TextFieldTreeTableCell with Task and String parameterized types
+ * Use a custom string converter to limit the length of the string
+ */
 public class LimitedLengthTextFormatter extends TextFieldTreeTableCell<Task, String> {
 
     public final int MAX_LENGTH = 20;

@@ -6,6 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.cell.ComboBoxTreeTableCell;
 import javafx.util.StringConverter;
 
+/**
+ * Extension of the ComboBoxTreeTableCell with Task and Priority parameterized types
+ * Use a custom string converter to show the priority to the user
+ */
 public class ComboBoxPriorityTreeTableCell extends ComboBoxTreeTableCell<Task, Priority> {
 
     public ComboBoxPriorityTreeTableCell() {

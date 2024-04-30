@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 /**
  * Represents a simple task with no progression state.
+ * A boolean task is not a progressive task, so it doesn't have completion percentage property editable.
+ * But it can set the finished property, that will also set completion percentage to 0 or 100.
+ * Likewise, the end date and duration are also editable.
  */
 public interface BooleanTask extends Task {
 

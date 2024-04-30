@@ -17,8 +17,18 @@ import javafx.stage.Window;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Manage the file opening and processing with JavaFX.
+ */
 public class TaskFileManagement {
 
+    /**
+     * getLoadedTaskFile : open the explorer and process the given file to transform it into task list
+     *                      and return the editing view of the selected task list
+     * @param window the window of the application used to open the file chooser
+     * @return the editing view of the selected task list
+     * @throws IOException if the file cannot be loaded
+     */
     public static Parent getLoadedTaskFile(Window window) throws IOException {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Charger quel fichier ?");

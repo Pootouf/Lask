@@ -8,6 +8,9 @@ import com.lask.model.task.std.*;
 
 import java.time.LocalDate;
 
+/**
+ * The implementation of the abstract task factory
+ */
 public class StdTaskFactory implements AbstractTaskFactory {
     @Override
     public TaskList createTaskList() {
