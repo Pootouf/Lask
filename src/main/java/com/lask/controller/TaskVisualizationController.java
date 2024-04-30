@@ -194,7 +194,7 @@ public class TaskVisualizationController implements Initializable {
      */
     public void openFile(ActionEvent actionEvent) throws IOException {
         taskList = TaskFileManagement.getTaskListFromFileChooser(rootVBox.getScene().getWindow());
-        Parent newRoot = TaskFileManagement.getLoadedTaskFile(taskList);
+        Parent newRoot = TaskFileManagement.getTaskEditViewFromTaskList(taskList);
         rootVBox.getScene().setRoot(newRoot);
     }
 

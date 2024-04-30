@@ -37,7 +37,7 @@ public class LaskController {
      */
     @FXML
     public void loadNewTaskList(ActionEvent actionEvent) throws IOException {
-        Parent newRoot = TaskFileManagement.getLoadedTaskFile(TaskFileManagement.getTaskListFromFileChooser(root.getScene().getWindow()));
+        Parent newRoot = TaskFileManagement.getTaskEditViewFromTaskList(TaskFileManagement.getTaskListFromFileChooser(root.getScene().getWindow()));
         root.getScene().setRoot(newRoot);
     }
 }

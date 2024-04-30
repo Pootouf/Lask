@@ -45,12 +45,12 @@ public class TaskFileManagement {
     }
 
     /**
-     * getLoadedTaskFile : return the editing view of the selected task list
+     * getTaskEditViewFromTaskList : return the editing view of the selected task list
      * @param taskList the task list to edit
      * @return the editing view of the selected task list
      * @throws IOException if the file cannot be loaded
      */
-    public static Parent getLoadedTaskFile(TaskList taskList) throws IOException {
+    public static Parent getTaskEditViewFromTaskList(TaskList taskList) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(TaskEditApplication.class.getResource("task-visualization.fxml"));
         Parent newRoot = fxmlLoader.load();
         ((TaskVisualizationController) fxmlLoader.getController()).setTaskList(taskList);
