@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="rootVBox" prefHeight="800" prefWidth="1500" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lask.controller.TaskVisualizationController">
+    <MenuBar fx:id="menuBar">
+        <Menu text="Fichier">
+            <MenuItem text="Nouveau" onAction="#openNewFile"/>
+            <MenuItem text="Ouvrir" onAction="#openFile"/>
+            <MenuItem text="Enregistrer sous" onAction="#selectDirectoryToSaveFile"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="Revenir à l'accueil" onAction="#returnToHomeScreen"/>
+            <MenuItem text="Quitter l'application" onAction="#exit"/>
+        </Menu>
+        <Menu text="Aide">
+            <MenuItem text="Manuel d'utilisation" onAction="#openUserManual"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="A propos" />
+        </Menu>
+    </MenuBar>
+
+    <VBox alignment="CENTER" prefHeight="800" prefWidth="1500">
+        <TreeTableView fx:id="treeView" editable="true" prefHeight="200.0" prefWidth="200.0" showRoot="false" tableMenuButtonVisible="true" />
+        <Button fx:id="finishButton" onAction="#finishSelectedTask" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Finir la tâche sélectionnée" />
+        <Button fx:id="deleteButton" onAction="#deleteTask" prefHeight="25.0" prefWidth="164.0" text="Supprimer la sélection" />
+        <Button onAction="#selectDirectoryToSaveFile" text="Sauvegarder au format XML" />
+    </VBox>
+</VBox>
